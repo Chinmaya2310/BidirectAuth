@@ -1,0 +1,35 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0
+  http://maven.apache.org/xsd/assembly-2.2.0.xsd">
+
+  <id>distribution</id>
+  <formats><format>zip</format></formats>
+  <includeBaseDirectory>true</includeBaseDirectory>
+  <baseDirectory>smarthome-auth-extension</baseDirectory>
+
+  <!-- Include our JAR -->
+  <files>
+    <file>
+      <source>${project.build.directory}/smarthome-auth-extension-1.0.0.jar</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>src/main/resources/hivemq-extension.xml</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+  </files>
+
+  <!-- Include dependency JARs in lib/ folder -->
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>/lib</outputDirectory>
+      <scope>runtime</scope>
+      <excludes>
+        <exclude>com.hivemq:hivemq-extension-sdk</exclude>
+        <exclude>com.smarthome:smarthome-auth-extension</exclude>
+      </excludes>
+    </dependencySet>
+  </dependencySets>
+
+</assembly>

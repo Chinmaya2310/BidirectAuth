@@ -1,0 +1,7 @@
+*.jar
+hivemq-ce-2024.3/data/
+hivemq-ce-2024.3/log/
+hivemq-extension/target/
+__pycache__/
+*.pyc
+.DS_Store
