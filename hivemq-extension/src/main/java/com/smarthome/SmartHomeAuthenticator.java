@@ -5,6 +5,7 @@ import com.hivemq.extension.sdk.api.auth.parameter.EnhancedAuthConnectInput;
 import com.hivemq.extension.sdk.api.auth.parameter.EnhancedAuthInput;
 import com.hivemq.extension.sdk.api.auth.parameter.EnhancedAuthOutput;
 import com.hivemq.extension.sdk.api.packets.general.DisconnectedReasonCode;
+import com.hivemq.extension.sdk.api.packets.general.ModifiableUserProperties;
 import com.hivemq.extension.sdk.api.packets.general.UserProperties;
 import com.hivemq.extension.sdk.api.packets.general.UserProperty;
 import org.slf4j.Logger;
@@ -22,7 +23,6 @@ public class SmartHomeAuthenticator implements EnhancedAuthenticator {
 
     private static final Logger log = LoggerFactory.getLogger(SmartHomeAuthenticator.class);
     private static final SecureRandom secureRandom = new SecureRandom();
-    private static final String AUTH_METHOD = "ArrowheadBidirectAuth";
 
     private final TokenValidator tokenValidator;
 
@@ -35,7 +35,7 @@ public class SmartHomeAuthenticator implements EnhancedAuthenticator {
         String clientId = input.getClientInformation().getClientId();
         log.info("[CONNECT] Client: {}", clientId);
 
-        // Read User Properties
+        // Read User Properties from CONNECT
         UserProperties props = input.getConnectPacket().getUserProperties();
         Optional<String> systemName = getProperty(props, "systemName");
         Optional<String> token = getProperty(props, "arrowheadToken");
@@ -47,7 +47,7 @@ public class SmartHomeAuthenticator implements EnhancedAuthenticator {
             log.warn("[CONNECT] No clientNonce - old client?");
         }
 
-        // Validate basics
+        // Required-property checks
         if (systemName.isEmpty()) {
             log.warn("[CONNECT] REJECTED {} - missing systemName", clientId);
             output.failAuthentication(DisconnectedReasonCode.NOT_AUTHORIZED, "Missing systemName");
@@ -59,7 +59,7 @@ public class SmartHomeAuthenticator implements EnhancedAuthenticator {
             return;
         }
 
-        // Validate token (Step 6 in the diagram)
+        // Step 6 in the diagram - validate Client-JWE token
         TokenValidator.ValidationResult result =
             tokenValidator.validateConnect(token.get(), systemName.get());
         if (!result.valid()) {
@@ -69,26 +69,18 @@ public class SmartHomeAuthenticator implements EnhancedAuthenticator {
         }
         log.info("[CONNECT] Token valid for client={}", clientId);
 
-        // Decide whether this client wants enhanced auth (BidirectAuth)
-        Optional<String> authMethod = input.getConnectPacket().getAuthenticationMethod();
-        boolean useBidirect = authMethod.isPresent() && AUTH_METHOD.equals(authMethod.get());
-
-        if (!useBidirect) {
-            // Backwards-compatible path: client did not opt in to BidirectAuth
-            log.info("[CONNECT] ACCEPTED (no BidirectAuth) client={}", clientId);
+        // ===== BidirectAuth Step 4 (CONNACK transport) =====
+        // Generate brokerNonce + sign brokerProof = sign(clientNonce || brokerNonce, broker.priv)
+        // Attach both to CONNACK User Properties.
+        // Per design notes: AUTH packet would be the spec-compliant transport, but Python MQTT
+        // libraries do not support AUTH-packet handling, so we use CONNACK User Properties.
+        // Cryptographic guarantees are identical.
+        if (clientNonce.isEmpty()) {
+            log.warn("[CONNECT] No clientNonce — skipping BidirectAuth, allowing legacy client");
             output.authenticateSuccessfully();
             return;
         }
 
-        // ===== BidirectAuth Step 4 =====
-        // Client opted in. Generate brokerNonce, sign brokerProof, send via AUTH packet.
-        if (clientNonce.isEmpty()) {
-            log.warn("[CONNECT] REJECTED client={} - BidirectAuth requested but clientNonce missing",
-                    clientId);
-            output.failAuthentication(DisconnectedReasonCode.NOT_AUTHORIZED,
-                    "BidirectAuth requires clientNonce");
-            return;
-        }
         try {
             byte[] brokerNonceBytes = new byte[16];
             secureRandom.nextBytes(brokerNonceBytes);
@@ -97,7 +89,7 @@ public class SmartHomeAuthenticator implements EnhancedAuthenticator {
             String concatenated = clientNonce.get() + brokerNonce;
             RSAPrivateKey brokerPriv = tokenValidator.getBrokerPrivateKey();
             if (brokerPriv == null) {
-                log.error("[AUTH] broker.priv not loaded - cannot sign brokerProof");
+                log.error("[AUTH] broker.priv not loaded — cannot sign brokerProof");
                 output.failAuthentication(DisconnectedReasonCode.SERVER_BUSY,
                         "Broker not ready for BidirectAuth");
                 return;
@@ -113,18 +105,13 @@ public class SmartHomeAuthenticator implements EnhancedAuthenticator {
             log.info("[AUTH] brokerProof: length={} bytes, b64 first 40: {}",
                     signature.length, brokerProof.substring(0, Math.min(40, brokerProof.length())));
 
-            // Persist a marker on this connection — onAuth will check it.
-            // ConnectionAttributeStore is per-connection state and doesn't need a clientId key.
-            input.getConnectionInformation().getConnectionAttributeStore()
-                .putAsString("bidirect-pending", "1");
+            // Attach to CONNACK User Properties
+            ModifiableUserProperties outboundProps = output.getOutboundUserProperties();
+            outboundProps.addUserProperty("brokerNonce", brokerNonce);
+            outboundProps.addUserProperty("brokerProof", brokerProof);
 
-            // Pack brokerNonce + brokerProof into Authentication Data field.
-            // Format: "brokerNonce:brokerProof" (both ASCII-safe)
-            String authPayload = brokerNonce + ":" + brokerProof;
-            byte[] authData = authPayload.getBytes(StandardCharsets.UTF_8);
-
-            log.info("[AUTH] Sending AUTH packet (Continue Authentication) to client={}", clientId);
-            output.continueAuthentication(authData);
+            log.info("[CONNECT] ACCEPTED client={} (CONNACK carries BidirectAuth proof)", clientId);
+            output.authenticateSuccessfully();
 
         } catch (Exception e) {
             log.error("[AUTH] Failed to generate brokerProof for client={}: {}",
@@ -136,24 +123,10 @@ public class SmartHomeAuthenticator implements EnhancedAuthenticator {
 
     @Override
     public void onAuth(EnhancedAuthInput input, EnhancedAuthOutput output) {
-        String clientId = input.getClientInformation().getClientId();
-        String authMethod = input.getAuthPacket().getAuthenticationMethod();
-
-        log.info("[AUTH] onAuth called for client={} method={}", clientId,
-                authMethod == null ? "(none)" : authMethod);
-
-        if (!AUTH_METHOD.equals(authMethod)) {
-            log.warn("[AUTH] Wrong authentication method - rejecting client={}", clientId);
-            output.failAuthentication(DisconnectedReasonCode.NOT_AUTHORIZED,
-                    "Unsupported auth method");
-            return;
-        }
-
-        // 2c-2: Client just acknowledges. We don't validate any data here yet.
-        // 2c-3 (and beyond) may add: client signs (brokerNonce || ?) to prove it received,
-        // but the bidirectional cryptographic proof is already established via brokerProof.
-        log.info("[AUTH] Client {} acknowledged AUTH - completing authentication", clientId);
-        output.authenticateSuccessfully();
+        // Path B does not use AUTH packets. Any AUTH received is unexpected.
+        log.warn("[AUTH] Unexpected AUTH packet — disconnecting");
+        output.failAuthentication(DisconnectedReasonCode.NOT_AUTHORIZED,
+                "AUTH not supported in this configuration");
     }
 
     private Optional<String> getProperty(UserProperties props, String name) {
