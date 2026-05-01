@@ -1,34 +1,36 @@
 package com.smarthome;
 
-import com.hivemq.extension.sdk.api.auth.SimpleAuthenticator;
-import com.hivemq.extension.sdk.api.auth.parameter.SimpleAuthInput;
-import com.hivemq.extension.sdk.api.auth.parameter.SimpleAuthOutput;
-import com.hivemq.extension.sdk.api.packets.connect.ConnackReasonCode;
+import com.hivemq.extension.sdk.api.auth.EnhancedAuthenticator;
+import com.hivemq.extension.sdk.api.auth.parameter.EnhancedAuthConnectInput;
+import com.hivemq.extension.sdk.api.auth.parameter.EnhancedAuthInput;
+import com.hivemq.extension.sdk.api.auth.parameter.EnhancedAuthOutput;
+import com.hivemq.extension.sdk.api.packets.general.DisconnectedReasonCode;
 import com.hivemq.extension.sdk.api.packets.general.UserProperties;
 import com.hivemq.extension.sdk.api.packets.general.UserProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.List;
-import java.util.Optional;
+
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.security.Signature;
 import java.security.interfaces.RSAPrivateKey;
 import java.util.Base64;
-import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Optional;
 
-public class SmartHomeAuthenticator implements SimpleAuthenticator {
+public class SmartHomeAuthenticator implements EnhancedAuthenticator {
 
     private static final Logger log = LoggerFactory.getLogger(SmartHomeAuthenticator.class);
-    private final TokenValidator tokenValidator;
     private static final SecureRandom secureRandom = new SecureRandom();
+
+    private final TokenValidator tokenValidator;
 
     public SmartHomeAuthenticator(TokenValidator tokenValidator) {
         this.tokenValidator = tokenValidator;
     }
 
     @Override
-    public void onConnect(SimpleAuthInput input, SimpleAuthOutput output) {
-
+    public void onConnect(EnhancedAuthConnectInput input, EnhancedAuthOutput output) {
         String clientId = input.getClientInformation().getClientId();
         log.info("[CONNECT] Client: {}", clientId);
 
@@ -47,7 +49,7 @@ public class SmartHomeAuthenticator implements SimpleAuthenticator {
 
         // ===== BidirectAuth Step 4 (sub-step 2b) =====
         // Generate brokerNonce + sign (clientNonce || brokerNonce) with broker.priv
-        // Not yet sent to client — just verifying crypto pipeline works.
+        // Not yet sent to client - just verifying crypto pipeline works.
         if (clientNonce.isPresent()) {
             try {
                 byte[] brokerNonceBytes = new byte[16];
@@ -76,14 +78,14 @@ public class SmartHomeAuthenticator implements SimpleAuthenticator {
         // Step 2 - Check systemName exists
         if (systemName.isEmpty()) {
             log.warn("[CONNECT] REJECTED {} - missing systemName", clientId);
-            output.failAuthentication(ConnackReasonCode.NOT_AUTHORIZED, "Missing systemName");
+            output.failAuthentication(DisconnectedReasonCode.NOT_AUTHORIZED, "Missing systemName");
             return;
         }
 
         // Step 3 - Check token exists
         if (token.isEmpty()) {
             log.warn("[CONNECT] REJECTED {} - missing arrowheadToken", clientId);
-            output.failAuthentication(ConnackReasonCode.NOT_AUTHORIZED, "Missing arrowheadToken");
+            output.failAuthentication(DisconnectedReasonCode.NOT_AUTHORIZED, "Missing arrowheadToken");
             return;
         }
 
@@ -96,8 +98,17 @@ public class SmartHomeAuthenticator implements SimpleAuthenticator {
             output.authenticateSuccessfully();
         } else {
             log.warn("[CONNECT] REJECTED client={} reason={}", clientId, result.reason());
-            output.failAuthentication(ConnackReasonCode.NOT_AUTHORIZED, result.reason());
+            output.failAuthentication(DisconnectedReasonCode.NOT_AUTHORIZED, result.reason());
         }
+    }
+
+    @Override
+    public void onAuth(EnhancedAuthInput input, EnhancedAuthOutput output) {
+        // Not used yet — sub-step 2c-2 will add AUTH packet handling.
+        // For now, any AUTH packet is unexpected; treat as protocol error.
+        log.warn("[AUTH] Unexpected AUTH packet received in 2c-1 — disconnecting");
+        output.failAuthentication(DisconnectedReasonCode.NOT_AUTHORIZED,
+                "AUTH not yet implemented");
     }
 
     // Helper to get a specific User Property by name

@@ -41,7 +41,7 @@ public class SmartHomeExtensionMain implements ExtensionMain {
             tokenValidator.loadBrokerPrivateKey(brokerKeystore, keystorePassword);
 
             // Step 4 - Register authenticator
-            Services.securityRegistry().setAuthenticatorProvider(
+            Services.securityRegistry().setEnhancedAuthenticatorProvider(
                 p -> new SmartHomeAuthenticator(tokenValidator));
 
             // Step 5 - Register authorizer
