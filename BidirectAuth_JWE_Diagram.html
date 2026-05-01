@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BidirectAuth-MQTT — Updated Sequence Diagram (JWE Version)</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0f1117;
+    color: #e2e8f0;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 24px;
+    min-height: 100vh;
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    text-align: center;
+    color: #f8fafc;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 11px;
+    color: #64748b;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .legend {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #94a3b8;
+  }
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+  }
+  .diagram-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid #1e293b;
+  }
+</style>
+</head>
+<body>
+
+<h1>BidirectAuth-MQTT — Sequence Diagram (JWE Version)</h1>
+<div class="subtitle">★ = Novel contribution &nbsp;|&nbsp; [1] = Paper 1 Hastbacka IECON 2023 &nbsp;|&nbsp; [2] = Paper 2 Michaelides WiNTECH 2021 &nbsp;|&nbsp; Red border = Changed from original</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#fbbf24"></div>STARTUP</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#38bdf8"></div>Steps 1–2 [1]</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div>Steps 3–4 [1+2]</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div>Step 5 ★ Novel</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fb923c"></div>Steps 6–7 [1+2]</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#64748b"></div>Step 8 [1]</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f43f5e;border:2px solid #f43f5e"></div>★ Changed from v2</div>
+</div>
+
+<div class="diagram-wrap">
+  <canvas id="diagram" style="display:block"></canvas>
+</div>
+
+<script>
+const canvas = document.getElementById('diagram');
+const ctx = canvas.getContext('2d');
+
+// ─── Layout constants ────────────────────────────────────────────────────────
+const W = 1500, H = 1680;
+canvas.width  = W;
+canvas.height = H;
+canvas.style.width  = W + 'px';
+canvas.style.height = H + 'px';
+
+// Participant x-centers
+const PX = {
+  client:  96,
+  orch:    270,
+  sr:      440,
+  auth:    615,
+  token:   790,
+  broker:  965,
+  ext:     1140,
+  valid:   1370
+};
+
+const LIFELINE_TOP    = 88;   // where lifeline starts (below participant box)
+const CONTENT_START   = 120;  // first message y
+const PBOX_W = 120, PBOX_H = 52;
+
+// ─── Colors ─────────────────────────────────────────────────────────────────
+const C = {
+  bg:        '#0f1117',
+  panel:     '#1e293b',
+  border:    '#334155',
+  text:      '#e2e8f0',
+  muted:     '#64748b',
+  lifeline:  '#334155',
+  // Section fills (semi-transparent)
+  startup:   'rgba(251,191,36,0.07)',
+  steps12:   'rgba(56,189,248,0.07)',
+  steps34:   'rgba(167,139,250,0.07)',
+  step5:     'rgba(52,211,153,0.09)',
+  steps67:   'rgba(251,146,60,0.07)',
+  step8:     'rgba(100,116,139,0.07)',
+  // Accents
+  yellow:    '#fbbf24',
+  blue:      '#38bdf8',
+  purple:    '#a78bfa',
+  green:     '#34d399',
+  orange:    '#fb923c',
+  red:       '#f43f5e',
+  slate:     '#94a3b8',
+  // Arrow types
+  solid:     '#60a5fa',
+  dashed:    '#94a3b8',
+  novel:     '#34d399',
+  changed:   '#f43f5e',
+};
+
+// ─── Draw helpers ────────────────────────────────────────────────────────────
+
+function rect(x, y, w, h, fill, stroke, r=4) {
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, r);
+  ctx.fillStyle = fill;   ctx.fill();
+  if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = 1.5; ctx.stroke(); }
+}
+
+function text(str, x, y, {color='#e2e8f0', size=11, align='center', weight='400', maxW=0}={}) {
+  ctx.fillStyle = color;
+  ctx.font = `${weight} ${size}px 'JetBrains Mono', monospace`;
+  ctx.textAlign = align;
+  ctx.textBaseline = 'middle';
+  if (maxW) {
+    // word-wrap not needed for our labels; just truncate
+    ctx.fillText(str, x, y, maxW);
+  } else {
+    ctx.fillText(str, x, y);
+  }
+}
+
+function multilineText(lines, x, y, {color='#e2e8f0', size=10.5, align='center', lineH=15, weight='400'}={}) {
+  lines.forEach((line, i) => {
+    text(line, x, y + i * lineH, {color, size, align, weight});
+  });
+}
+
+function arrowHead(x, y, dir='right', color='#60a5fa', size=7) {
+  ctx.beginPath();
+  if (dir === 'right') {
+    ctx.moveTo(x, y);
+    ctx.lineTo(x - size, y - size * 0.6);
+    ctx.lineTo(x - size, y + size * 0.6);
+  } else {
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + size, y - size * 0.6);
+    ctx.lineTo(x + size, y + size * 0.6);
+  }
+  ctx.closePath();
+  ctx.fillStyle = color;
+  ctx.fill();
+}
+
+function arrow(x1, y, x2, label, {color=C.solid, dashed=false, novel=false, changed=false, labelLines=[]}={}) {
+  const aColor = changed ? C.changed : novel ? C.novel : color;
+  ctx.beginPath();
+  ctx.strokeStyle = aColor;
+  ctx.lineWidth = dashed ? 1.2 : 1.6;
+  if (dashed) ctx.setLineDash([5, 4]);
+  else ctx.setLineDash([]);
+  ctx.moveTo(x1, y);
+  ctx.lineTo(x2, y);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // arrowhead
+  const dir = x2 > x1 ? 'right' : 'left';
+  arrowHead(x2, y, dir, aColor);
+
+  // label
+  const mx = (x1 + x2) / 2;
+  const allLines = label ? [label, ...labelLines] : labelLines;
+  const lColor = changed ? C.changed : novel ? C.novel : C.text;
+  allLines.forEach((ln, i) => {
+    const isAnnotation = i > 0 || label === '';
+    ctx.fillStyle = isAnnotation ? C.muted : lColor;
+    ctx.font = `${isAnnotation ? '400' : '600'} ${isAnnotation ? 9.5 : 10.5}px 'JetBrains Mono', monospace`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(ln, mx, y - 10 - (allLines.length - 1 - i) * 13);
+  });
+}
+
+function selfNote(px_center, y, lines, {color=C.panel, border=C.border, textColor=C.text, changed=false, novel=false}={}) {
+  const bColor = changed ? C.changed : novel ? C.novel : border;
+  const w = 220, h = lines.length * 15 + 14;
+  const x = px_center - w / 2;
+  rect(x, y - h/2, w, h, color, bColor, 3);
+  lines.forEach((ln, i) => {
+    const isNote = i > 0;
+    ctx.fillStyle = isNote ? C.muted : (changed ? C.changed : novel ? C.novel : textColor);
+    ctx.font = `${isNote ? '400' : '600'} ${isNote ? 9 : 10}px 'JetBrains Mono', monospace`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(ln, px_center, y - h/2 + 10 + i * 15);
+  });
+  return h;
+}
+
+function sectionBox(y, h, label, fill, borderColor) {
+  rect(8, y, W - 16, h, fill, borderColor, 6);
+  ctx.fillStyle = borderColor;
+  ctx.font = `700 10px 'JetBrains Mono', monospace`;
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(label, 20, y + 12);
+}
+
+function lifeline(x, yFrom, yTo) {
+  ctx.beginPath();
+  ctx.strokeStyle = C.lifeline;
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4, 6]);
+  ctx.moveTo(x, yFrom);
+  ctx.lineTo(x, yTo);
+  ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function participantBox(x, lines, accent) {
+  const bx = x - PBOX_W/2, by = 20;
+  rect(bx, by, PBOX_W, PBOX_H, '#1e293b', accent, 6);
+  lines.forEach((ln, i) => {
+    ctx.fillStyle = accent;
+    ctx.font = `600 10px 'JetBrains Mono', monospace`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(ln, x, by + 14 + i * 16);
+  });
+}
+
+// ─── Background ──────────────────────────────────────────────────────────────
+rect(0, 0, W, H, C.bg);
+
+// ─── Section boxes ───────────────────────────────────────────────────────────
+// Y positions for each section
+const SEC = {
+  startup: { y: 112, h: 192 },
+  steps12: { y: 315, h: 328 },
+  step3:   { y: 653, h: 85  },
+  step4:   { y: 748, h: 198 },
+  step5:   { y: 956, h: 190 },
+  step6:   { y: 1156, h: 158 },
+  step7:   { y: 1324, h: 82 },
+  step8:   { y: 1416, h: 242 },
+};
+
+sectionBox(SEC.startup.y, SEC.startup.h, 'STARTUP  [1 + ★NEW — no Broker-JWT stored; loads private key instead]', C.startup, C.yellow);
+sectionBox(SEC.steps12.y, SEC.steps12.h, 'STEPS 1–2  [1 + ★CHANGED — Arrowhead now generates TWO JWEs: Token A + Token B]', C.steps12, C.blue);
+sectionBox(SEC.step3.y,   SEC.step3.h,   'STEP 3  [1+2 — ★CHANGED — CONNECT now carries Token B (Broker-JWE) as well]', C.steps34, C.purple);
+sectionBox(SEC.step4.y,   SEC.step4.h,   'STEP 4  [★NEW/CHANGED — Extension forwards Token B it cannot decrypt]', C.steps34, C.purple);
+sectionBox(SEC.step5.y,   SEC.step5.h,   'STEP 5  ★★ NOVEL — Client decrypts Token B using its OWN private key, verifies broker identity', C.step5, C.green);
+sectionBox(SEC.step6.y,   SEC.step6.h,   'STEP 6  [1+2 — ★CHANGED — Extension decrypts Token A (JWE) using hivemq-broker.key]', C.steps67, C.orange);
+sectionBox(SEC.step7.y,   SEC.step7.h,   'STEP 7  ★ NOVEL — CONNACK — Mutual Authentication Complete', C.steps67, C.orange);
+sectionBox(SEC.step8.y,   SEC.step8.h,   'STEP 8  [1] — Per-packet authorization (Token A on every PUBLISH/SUBSCRIBE)', C.step8, C.slate);
+
+// ─── Participants ────────────────────────────────────────────────────────────
+participantBox(PX.client,  ['MQTT', 'Client'],       C.blue);
+participantBox(PX.orch,    ['Arrowhead', 'Orch.'],   C.slate);
+participantBox(PX.sr,      ['Service', 'Registry'],  C.slate);
+participantBox(PX.auth,    ['Authorization', 'System'], C.yellow);
+participantBox(PX.token,   ['Token', 'Generator'],   C.yellow);
+participantBox(PX.broker,  ['HiveMQ', 'Broker'],     C.purple);
+participantBox(PX.ext,     ['HiveMQ', 'Extension'],  C.orange);
+participantBox(PX.valid,   ['Token Validator', 'API'], C.orange);
+
+// ─── Lifelines ───────────────────────────────────────────────────────────────
+Object.values(PX).forEach(x => lifeline(x, LIFELINE_TOP, H - 20));
+
+// ─── STARTUP messages ────────────────────────────────────────────────────────
+// 1. Extension → Auth: Request RSA Public Key only (no Broker-JWT now)
+arrow(PX.ext, 148, PX.auth, 'Request RSA Public Key',
+  {labelLines: ['[★CHANGED — no Broker-JWT requested at startup]'], changed: true});
+
+// 2. Auth → Extension: RSA Public Key
+arrow(PX.auth, 180, PX.ext, 'RSA Public Key',
+  {dashed: true, color: C.slate});
+
+// 3. Extension self: Load private key
+selfNote(PX.ext, 218, ['Load hivemq-broker.key', '(private key for JWE decryption) [★NEW]'],
+  {changed: true});
+
+// 4. Extension self: Initialize Token Validator
+selfNote(PX.ext, 262, ['Initialize Token Validator', 'No Broker-JWT stored [★CHANGED]'],
+  {border: C.orange, textColor: C.orange});
+
+// ─── STEPS 1–2 ───────────────────────────────────────────────────────────────
+const S12 = 315;
+// 1. Client → Orchestrator
+arrow(PX.client, S12+42, PX.orch, 'Request (topic, action, client.pub)', {color: C.blue});
+
+// 2. Orch → SR
+arrow(PX.orch, S12+78, PX.sr, 'Lookup service', {color: C.slate});
+
+// 3. Orch → Auth
+arrow(PX.orch, S12+112, PX.auth, 'Policy validation', {color: C.slate});
+
+// 4. Auth → Token: Generate Token A
+arrow(PX.auth, S12+152, PX.token, 'Generate Token A (Client-JWE)',
+  {labelLines: ['sign Client-JWT → encrypt with client.pub [1]'], color: C.yellow});
+
+// 5. Auth → Token: Generate Token B [★NEW]
+arrow(PX.auth, S12+202, PX.token, '★ Generate Token B (Broker-JWE)',
+  {labelLines: ['sign Broker-JWT → encrypt with client.pub [★NEW]'], novel: true});
+
+// 6. Token → Auth: return both
+arrow(PX.token, S12+248, PX.auth, 'Token A + Token B',
+  {dashed: true, color: C.slate});
+
+// 7. Auth → Orch
+arrow(PX.auth, S12+280, PX.orch, 'Token A + Token B',
+  {dashed: true, color: C.slate});
+
+// 8. Orch → Client [★CHANGED]
+arrow(PX.orch, S12+315, PX.client,
+  'Broker URL + Token A + Token B + Arrowhead Public Key',
+  {labelLines: ['[★CHANGED — Token B (Broker-JWE) now included]'], changed: true, dashed: true});
+
+// ─── STEP 3 ──────────────────────────────────────────────────────────────────
+const S3Y = 698;
+arrow(PX.client, S3Y, PX.broker,
+  'CONNECT + Token A (Client-JWE) + Token B (Broker-JWE) + clientNonce',
+  {labelLines: ['[★CHANGED — client now sends Token B so Extension can relay it]'], changed: true});
+
+// ─── STEP 4 ──────────────────────────────────────────────────────────────────
+const S4 = 748;
+selfNote(PX.ext, S4+60, ['Intercept CONNECT', 'Structural check Token A (JWE format only)'],
+  {border: C.purple, textColor: C.purple});
+
+selfNote(PX.ext, S4+112,
+  ['Extract Token B — CANNOT decrypt', '(encrypted for client.pub, not broker.key) [★NEW]'],
+  {changed: true});
+
+// Extension → Client: AUTH with Token B
+arrow(PX.ext, S4+160, PX.client,
+  'AUTH packet: Token B (Broker-JWE) + brokerNonce',
+  {labelLines: ['[★CHANGED — Token B is now JWE, Extension just relays it]'], changed: true});
+
+// ─── STEP 5 ★★ NOVEL ─────────────────────────────────────────────────────────
+const S5 = 956;
+selfNote(PX.client, S5+42,
+  ['★ Decrypt Token B using client.key', '→ recover inner Broker-JWT [★★ NOVEL]'],
+  {novel: true, border: C.green});
+
+selfNote(PX.client, S5+96,
+  ['Verify Broker-JWT sig with Arrowhead public key (RS256)', '(sig was made by Arrowhead at token generation)'],
+  {border: C.green, textColor: C.green});
+
+selfNote(PX.client, S5+146,
+  ['Check: brokerUrl + brokerName + exp'],
+  {border: C.green, textColor: C.green});
+
+// INVALID branch note
+rect(PX.client + 20, S5+165, 310, 22, 'rgba(244,63,94,0.12)', C.red, 3);
+ctx.fillStyle = C.red;
+ctx.font = `600 9.5px 'JetBrains Mono', monospace`;
+ctx.textAlign = 'left';
+ctx.textBaseline = 'middle';
+ctx.fillText('If INVALID → close TCP immediately  |  If VALID → proceed ↓', PX.client + 28, S5+176);
+
+// ─── STEP 6 ──────────────────────────────────────────────────────────────────
+const S6 = 1156;
+arrow(PX.ext, S6+44, PX.valid,
+  'Full validation: decrypt Token A + verify Client-JWT + nonce',
+  {labelLines: ['[★CHANGED — now includes JWE decryption step first]'], changed: true});
+
+selfNote(PX.valid, S6+102,
+  ['Decrypt Token A using hivemq-broker.key', '→ inner Client-JWT (RSA-OAEP-256 + AES-256-CBC)'],
+  {border: C.orange, textColor: C.orange});
+
+selfNote(PX.valid, S6+144,
+  ['Verify sig (RS256) + claims + nonce freshness', 'sub / resourceUrl / action / exp ✓'],
+  {border: C.orange, textColor: C.orange});
+
+// Both verified note
+rect(W/2 - 140, S6+158, 280, 20, 'rgba(52,211,153,0.1)', C.green, 3);
+text('Both parties verified ✓', W/2, S6+168, {color: C.green, size: 10, weight: '600'});
+
+// ─── STEP 7 ──────────────────────────────────────────────────────────────────
+const S7 = 1324;
+arrow(PX.ext, S7+42, PX.client,
+  '★ CONNACK 0x00 — Mutual Authentication Complete',
+  {novel: true, labelLines: ['[Client verified broker + Broker verified client — first in MQTT 5 + service framework]']});
+
+// ─── STEP 8 ──────────────────────────────────────────────────────────────────
+const S8 = 1416;
+
+// Client → Broker: PUBLISH with Token A
+arrow(PX.client, S8+44, PX.broker,
+  'PUBLISH / SUBSCRIBE + Token A (Client-JWE)',
+  {color: C.blue, labelLines: ['[per-packet JWT in User Properties — Paper 1 Sec. III-A]']});
+
+// Extension intercepts
+selfNote(PX.ext, S8+100,
+  ['Intercept packet', 'Decrypt Token A + verify JWT sig + topic + action'],
+  {border: C.slate, textColor: C.slate});
+
+// Extension → Validator
+arrow(PX.ext, S8+148, PX.valid,
+  'Match topic + action vs JWT claims',
+  {color: C.slate});
+
+// Validator allow
+arrow(PX.valid, S8+178, PX.ext, 'Allow', {dashed: true, color: C.green});
+
+// Extension → Client: PUBACK/SUBACK
+arrow(PX.ext, S8+210, PX.client,
+  'PUBACK / SUBACK',
+  {dashed: true, color: C.slate});
+
+// ─── Bottom participant boxes (repeat) ───────────────────────────────────────
+const BY = H - 70;
+Object.entries(PX).forEach(([key, x]) => {
+  const labels = {
+    client: ['MQTT','Client'], orch: ['Arrowhead','Orch.'],
+    sr: ['Service','Registry'], auth: ['Authorization','System'],
+    token: ['Token','Generator'], broker: ['HiveMQ','Broker'],
+    ext: ['HiveMQ','Extension'], valid: ['Token Validator','API']
+  };
+  const accents = {
+    client: C.blue, orch: C.slate, sr: C.slate, auth: C.yellow,
+    token: C.yellow, broker: C.purple, ext: C.orange, valid: C.orange
+  };
+  const bx = x - PBOX_W/2;
+  rect(bx, BY, PBOX_W, PBOX_H, '#1e293b', accents[key], 6);
+  labels[key].forEach((ln, i) => {
+    ctx.fillStyle = accents[key];
+    ctx.font = `600 10px 'JetBrains Mono', monospace`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(ln, x, BY + 14 + i * 16);
+  });
+});
+
+// ─── Watermark / caption ─────────────────────────────────────────────────────
+ctx.fillStyle = '#1e293b';
+ctx.font = `400 9px 'JetBrains Mono', monospace`;
+ctx.textAlign = 'right';
+ctx.textBaseline = 'bottom';
+ctx.fillText('BidirectAuth-MQTT | JWE Version | [1] Hastbacka IECON 2023  [2] Michaelides WiNTECH 2021', W - 12, H - 4);
+
+</script>
+</body>
+</html>

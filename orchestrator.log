@@ -1,0 +1,265 @@
+2026-04-20 09:12:45.526  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Starting OrchestratorMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 22371 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/orchestrator.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-20 09:12:45.531  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : No active profile set, falling back to default profiles: default
+2026-04-20 09:12:47.311  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : OrchestratorAccessControlFilter is active
+2026-04-20 09:12:49.418  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Init
+2026-04-20 09:12:49.418  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Disabled
+2026-04-20 09:12:49.456  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-20 09:12:49.593  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-20 09:12:50.085  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.q.t.ReservationCheckTaskConfig   : Services reservation task adjusted with interval: 60 seconds
+2026-04-20 09:12:50.235  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-20 09:12:50.952  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: ORCHESTRATOR
+2026-04-20 09:12:50.953  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-20 09:12:50.982  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: orchestrator.smarthome.demo.arrowhead.eu
+2026-04-20 09:12:51.095  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 09:12:51.426  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR published 9 service(s).
+2026-04-20 09:12:51.561  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Started OrchestratorMain in 6.214 seconds (JVM running for 6.988)
+2026-04-20 09:59:17.846  WARN Chinmayas-MacBook-Pro.local --- [l-1 housekeeper] c.z.h.p.HikariPool                       : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m394ms).
+2026-04-20 09:59:18.501  WARN Chinmayas-MacBook-Pro.local --- [l-2 housekeeper] c.z.h.p.HikariPool                       : HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m397ms).
+2026-04-20 10:02:33.908  WARN Chinmayas-MacBook-Pro.local --- [l-1 housekeeper] c.z.h.p.HikariPool                       : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m46s27ms).
+2026-04-20 10:02:34.542  WARN Chinmayas-MacBook-Pro.local --- [l-2 housekeeper] c.z.h.p.HikariPool                       : HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=2m46s24ms).
+2026-04-20 10:49:05.645  INFO Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 10:49:05.940  INFO Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR revoked 9 service(s).
+2026-04-20 14:44:50.017  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Starting OrchestratorMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 33044 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/orchestrator.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-20 14:44:50.025  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : No active profile set, falling back to default profiles: default
+2026-04-20 14:44:52.438  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : OrchestratorAccessControlFilter is active
+2026-04-20 14:44:57.214  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Init
+2026-04-20 14:44:57.219  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Disabled
+2026-04-20 14:44:57.493  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-20 14:44:58.162  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-20 14:44:58.858  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.q.t.ReservationCheckTaskConfig   : Services reservation task adjusted with interval: 60 seconds
+2026-04-20 14:44:59.003  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-20 14:45:00.575  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: ORCHESTRATOR
+2026-04-20 14:45:00.575  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-20 14:45:00.612  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: orchestrator.smarthome.demo.arrowhead.eu
+2026-04-20 14:45:00.852  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 14:45:01.224  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR published 9 service(s).
+2026-04-20 14:45:01.364  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Started OrchestratorMain in 11.725 seconds (JVM running for 12.928)
+2026-04-20 14:45:28.296 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-20 14:45:31.183 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-20 14:45:45.514 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-20 14:46:03.544  INFO Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 14:46:03.682  INFO Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR revoked 9 service(s).
+2026-04-20 14:46:06.390  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Starting OrchestratorMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 34393 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/orchestrator.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-20 14:46:06.394  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : No active profile set, falling back to default profiles: default
+2026-04-20 14:46:07.970  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : OrchestratorAccessControlFilter is active
+2026-04-20 14:46:09.987  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Init
+2026-04-20 14:46:09.988  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Disabled
+2026-04-20 14:46:10.032  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-20 14:46:10.184  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-20 14:46:10.586  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.q.t.ReservationCheckTaskConfig   : Services reservation task adjusted with interval: 60 seconds
+2026-04-20 14:46:10.672  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-20 14:46:11.350  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: ORCHESTRATOR
+2026-04-20 14:46:11.351  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-20 14:46:11.372  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: orchestrator.smarthome.demo.arrowhead.eu
+2026-04-20 14:46:11.476  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 14:46:11.680  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR published 9 service(s).
+2026-04-20 14:46:11.794  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Started OrchestratorMain in 5.586 seconds (JVM running for 6.17)
+2026-04-20 14:47:04.680 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-20 14:47:11.005 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-20 14:48:31.548 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-20 14:50:33.300 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-20 14:53:32.715  INFO Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 14:53:32.867  INFO Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR revoked 9 service(s).
+2026-04-20 14:59:59.502  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Starting OrchestratorMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 49361 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/orchestrator.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-20 14:59:59.507  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : No active profile set, falling back to default profiles: default
+2026-04-20 15:00:00.885  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : OrchestratorAccessControlFilter is active
+2026-04-20 15:00:02.948  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Init
+2026-04-20 15:00:02.949  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Disabled
+2026-04-20 15:00:03.009  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-20 15:00:03.152  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-20 15:00:03.517  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.q.t.ReservationCheckTaskConfig   : Services reservation task adjusted with interval: 60 seconds
+2026-04-20 15:00:03.593  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-20 15:00:04.211  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: ORCHESTRATOR
+2026-04-20 15:00:04.212  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-20 15:00:04.231  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: orchestrator.smarthome.demo.arrowhead.eu
+2026-04-20 15:00:04.338  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 15:00:04.550  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR published 9 service(s).
+2026-04-20 15:00:04.665  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Started OrchestratorMain in 5.343 seconds (JVM running for 6.788)
+2026-04-20 16:20:06.734  INFO Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 16:20:07.213  INFO Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR revoked 9 service(s).
+2026-04-20 16:56:07.506  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Starting OrchestratorMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 56131 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/orchestrator.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-20 16:56:07.512  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : No active profile set, falling back to default profiles: default
+2026-04-20 16:56:08.915  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : OrchestratorAccessControlFilter is active
+2026-04-20 16:56:10.929  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Init
+2026-04-20 16:56:10.929  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Disabled
+2026-04-20 16:56:10.973  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-20 16:56:11.120  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-20 16:56:11.514  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.q.t.ReservationCheckTaskConfig   : Services reservation task adjusted with interval: 60 seconds
+2026-04-20 16:56:11.588  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-20 16:56:12.268  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: ORCHESTRATOR
+2026-04-20 16:56:12.268  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-20 16:56:12.291  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: orchestrator.smarthome.demo.arrowhead.eu
+2026-04-20 16:56:12.401  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 16:56:12.610  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR published 9 service(s).
+2026-04-20 16:56:12.716  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Started OrchestratorMain in 5.388 seconds (JVM running for 5.929)
+2026-04-20 17:11:31.865  WARN Chinmayas-MacBook-Pro.local --- [l-1 housekeeper] c.z.h.p.HikariPool                       : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m23s791ms).
+2026-04-20 17:11:33.020  WARN Chinmayas-MacBook-Pro.local --- [l-2 housekeeper] c.z.h.p.HikariPool                       : HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=2m23s790ms).
+2026-04-20 17:45:15.624 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-7] e.a.c.h.HttpService                      : Request returned with INVALID_PARAMETER: Consumer with name: sample-02, address: 127.0.0.1 and port: 9100 is not exist in the database.
+2026-04-20 17:46:22.569 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-2] e.a.c.h.HttpService                      : Request returned with INVALID_PARAMETER: Consumer with name: sample-02, address: 127.0.0.1 and port: 9100 is not exist in the database.
+2026-04-20 17:46:52.670 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-7] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-20 17:47:23.177 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-2] e.a.c.h.HttpService                      : Request returned with INVALID_PARAMETER: Consumer with name: sample-02, address: 127.0.0.1 and port: 9100 is not exist in the database.
+2026-04-20 17:49:35.823 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-3] e.a.c.h.HttpService                      : Request returned with INVALID_PARAMETER: Consumer with name: sample-02, address: 127.0.0.1 and port: 9100 is not exist in the database.
+2026-04-20 18:32:38.702  WARN Chinmayas-MacBook-Pro.local --- [l-1 housekeeper] c.z.h.p.HikariPool                       : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m6s109ms).
+2026-04-20 18:32:39.832  WARN Chinmayas-MacBook-Pro.local --- [l-2 housekeeper] c.z.h.p.HikariPool                       : HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m6s108ms).
+2026-04-20 18:32:54.162  INFO Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 18:32:54.363  INFO Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR revoked 9 service(s).
+2026-04-27 09:54:38.321  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Starting OrchestratorMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 71827 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/orchestrator.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-27 09:54:38.332  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : No active profile set, falling back to default profiles: default
+2026-04-27 09:54:39.812  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : OrchestratorAccessControlFilter is active
+2026-04-27 09:54:42.335  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Init
+2026-04-27 09:54:42.336  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Disabled
+2026-04-27 09:54:42.392  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-27 09:54:42.621  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-27 09:54:43.143  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.q.t.ReservationCheckTaskConfig   : Services reservation task adjusted with interval: 60 seconds
+2026-04-27 09:54:43.229  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-27 09:54:43.904  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: ORCHESTRATOR
+2026-04-27 09:54:43.905  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-27 09:54:43.917  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: orchestrator.smarthome.demo.arrowhead.eu
+2026-04-27 09:54:44.029  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-27 09:54:44.291  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR published 9 service(s).
+2026-04-27 09:54:44.349  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Started OrchestratorMain in 6.197 seconds (JVM running for 6.776)
+2026-04-27 09:55:16.894 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:55:28.885 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:55:45.530 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:55:51.091 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:55:52.729 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:55:53.855 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:55:54.834 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:55:55.921 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:55:56.888 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:55:57.738 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:55:58.753 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:55:59.619 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:56:00.612 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:56:02.563 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:56:03.723 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:56:04.780 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:56:05.880 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:56:06.944 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:56:08.447 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:56:10.247 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:56:11.345 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:56:12.287 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:56:13.197 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:56:14.387 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 09:56:15.372 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 10:00:09.546 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 10:00:11.364 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 10:04:17.632 ERROR Chinmayas-MacBook-Pro.local --- [.0-8441-exec-10] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 10:09:16.299 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 10:09:31.415 ERROR Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.h.HttpService                      : UnavailableServerException occurred at https://127.0.0.1:8443/serviceregistry/echo
+2026-04-27 10:09:31.415 ERROR Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.ApplicationInitListener            : Could not get any response from: https://127.0.0.1:8443/serviceregistry/echo
+2026-04-27 10:10:17.286  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Starting OrchestratorMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 86784 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/orchestrator.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-27 10:10:17.290  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : No active profile set, falling back to default profiles: default
+2026-04-27 10:10:18.708  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : OrchestratorAccessControlFilter is active
+2026-04-27 10:10:20.659  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Init
+2026-04-27 10:10:20.660  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Disabled
+2026-04-27 10:10:20.699  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-27 10:10:20.821  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-27 10:10:21.210  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.q.t.ReservationCheckTaskConfig   : Services reservation task adjusted with interval: 60 seconds
+2026-04-27 10:10:21.292  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-27 10:10:21.922  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: ORCHESTRATOR
+2026-04-27 10:10:21.923  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-27 10:10:21.929  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: orchestrator.smarthome.demo.arrowhead.eu
+2026-04-27 10:10:22.024  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-27 10:10:22.337  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR published 9 service(s).
+2026-04-27 10:10:22.389  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Started OrchestratorMain in 5.268 seconds (JVM running for 5.815)
+2026-04-27 10:10:28.775  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Starting OrchestratorMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 86951 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/orchestrator.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-27 10:10:28.782  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : No active profile set, falling back to default profiles: default
+2026-04-27 10:10:30.115  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : OrchestratorAccessControlFilter is active
+2026-04-27 10:10:32.044  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Init
+2026-04-27 10:10:32.044  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Disabled
+2026-04-27 10:10:32.079  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-27 10:10:32.217  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-27 10:10:32.594  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.q.t.ReservationCheckTaskConfig   : Services reservation task adjusted with interval: 60 seconds
+2026-04-27 10:10:32.672  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-27 10:10:33.292  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: ORCHESTRATOR
+2026-04-27 10:10:33.292  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-27 10:10:33.304  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: orchestrator.smarthome.demo.arrowhead.eu
+2026-04-27 10:10:33.424  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-27 10:10:33.694  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR published 9 service(s).
+2026-04-27 10:10:33.702 ERROR Chinmayas-MacBook-Pro.local --- [           main] o.a.c.u.LifecycleBase                    : Failed to start component [Connector[HTTP/1.1-8441]]
+org.apache.catalina.LifecycleException: Protocol handler start failed
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1008)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:226)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.addPreviouslyRemovedConnectors(TomcatWebServer.java:259)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start(TomcatWebServer.java:197)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.startWebServer(ServletWebServerApplicationContext.java:311)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.finishRefresh(ServletWebServerApplicationContext.java:164)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:552)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:142)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at eu.arrowhead.core.orchestrator.OrchestratorMain.main(OrchestratorMain.java:40)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:48)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:87)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:50)
+	at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:51)
+Caused by: java.net.BindException: Address already in use
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:577)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:344)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:301)
+	at java.base/sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:89)
+	at org.apache.tomcat.util.net.NioEndpoint.initServerSocket(NioEndpoint.java:239)
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:213)
+	at org.apache.tomcat.util.net.AbstractEndpoint.bindWithCleanup(AbstractEndpoint.java:1116)
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:1202)
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:568)
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1005)
+	... 20 more
+2026-04-27 10:10:33.710 ERROR Chinmayas-MacBook-Pro.local --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The Tomcat connector configured to listen on port 8441 failed to start. The port may already be in use or the connector may be misconfigured.
+
+Action:
+
+Verify the connector's configuration, identify and stop any process that's listening on port 8441, or configure this application to listen on another port.
+
+2026-04-27 10:10:33.730  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-27 10:10:33.806  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR revoked 9 service(s).
+2026-04-27 10:11:07.457 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-5] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 10:35:32.943  INFO Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-27 10:35:33.002 ERROR Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.h.HttpService                      : Request returned with INVALID_PARAMETER: No Service Registry entry with provider: (orchestrator, 127.0.0.1:8441), service definition: orchestration-service and service URI: /orchestrator/orchestration exists.
+2026-04-27 10:35:33.018 ERROR Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.h.HttpService                      : Request returned with INVALID_PARAMETER: No Service Registry entry with provider: (orchestrator, 127.0.0.1:8441), service definition: orchestration-service-by-proxy and service URI: /orchestrator/orchestration-by-proxy exists.
+2026-04-27 10:35:33.032 ERROR Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.h.HttpService                      : Request returned with INVALID_PARAMETER: No Service Registry entry with provider: (orchestrator, 127.0.0.1:8441), service definition: orchestration-create-flexible-store-rules and service URI: /orchestrator/store/flexible exists.
+2026-04-27 10:35:33.045 ERROR Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.h.HttpService                      : Request returned with INVALID_PARAMETER: No Service Registry entry with provider: (orchestrator, 127.0.0.1:8441), service definition: orchestration-remove-flexible-store-rule and service URI: /orchestrator/store/flexible/{id} exists.
+2026-04-27 10:35:33.059 ERROR Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.h.HttpService                      : Request returned with INVALID_PARAMETER: No Service Registry entry with provider: (orchestrator, 127.0.0.1:8441), service definition: orchestration-clean-flexible-store and service URI: /orchestrator/store/flexible/all exists.
+2026-04-27 10:35:33.073 ERROR Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.h.HttpService                      : Request returned with INVALID_PARAMETER: No Service Registry entry with provider: (orchestrator, 127.0.0.1:8441), service definition: orchestration-qos-enabled and service URI: /orchestrator/qos_enabled exists.
+2026-04-27 10:35:33.091 ERROR Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.h.HttpService                      : Request returned with INVALID_PARAMETER: No Service Registry entry with provider: (orchestrator, 127.0.0.1:8441), service definition: orchestration-qos-reservations and service URI: /orchestrator/qos_reservations exists.
+2026-04-27 10:35:33.103 ERROR Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.h.HttpService                      : Request returned with INVALID_PARAMETER: No Service Registry entry with provider: (orchestrator, 127.0.0.1:8441), service definition: orchestration-qos-temporary-lock and service URI: /orchestrator/qos_temporary_lock exists.
+2026-04-27 10:35:33.115 ERROR Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.h.HttpService                      : Request returned with INVALID_PARAMETER: No Service Registry entry with provider: (orchestrator, 127.0.0.1:8441), service definition: orchestration-qos-confirm-reservation and service URI: /orchestrator/qos_reservations exists.
+2026-04-27 10:35:33.115  INFO Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR revoked 0 service(s).
+2026-04-27 17:05:21.065  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Starting OrchestratorMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 29410 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/orchestrator.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-27 17:05:21.075  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : No active profile set, falling back to default profiles: default
+2026-04-27 17:05:22.649  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : OrchestratorAccessControlFilter is active
+2026-04-27 17:05:24.796  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Init
+2026-04-27 17:05:24.797  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.p.c.CoapOrchestrator             : CoAP Protocol Disabled
+2026-04-27 17:05:24.845  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-27 17:05:24.982  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-27 17:05:25.438  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.q.t.ReservationCheckTaskConfig   : Services reservation task adjusted with interval: 60 seconds
+2026-04-27 17:05:25.511  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-27 17:05:26.149  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: ORCHESTRATOR
+2026-04-27 17:05:26.150  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-27 17:05:26.159  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: orchestrator.smarthome.demo.arrowhead.eu
+2026-04-27 17:05:26.253  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-27 17:05:26.513  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR published 9 service(s).
+2026-04-27 17:05:26.567  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.o.OrchestratorMain                 : Started OrchestratorMain in 5.714 seconds (JVM running for 6.435)
+2026-04-27 17:34:52.988 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-9] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 17:48:03.786 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-3] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 17:48:05.076 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-8] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 17:48:06.149 ERROR Chinmayas-MacBook-Pro.local --- [0.0-8441-exec-3] e.a.c.h.HttpService                      : Request returned with BAD_PAYLOAD: System authentication info is null or blank
+2026-04-27 18:21:02.841  INFO Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-27 18:21:03.098  INFO Chinmayas-MacBook-Pro.local --- [       Thread-4] e.a.c.ApplicationInitListener            : Core system ORCHESTRATOR revoked 9 service(s).

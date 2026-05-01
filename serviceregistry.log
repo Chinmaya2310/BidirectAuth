@@ -1,0 +1,120 @@
+2026-04-20 09:12:14.640  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Starting ServiceRegistryMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 21793 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/serviceregistry.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-20 09:12:14.646  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : No active profile set, falling back to default profiles: default
+2026-04-20 09:12:18.080  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : SRAccessControlFilter is active
+2026-04-20 09:12:20.082  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Init
+2026-04-20 09:12:20.083  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Disabled
+2026-04-20 09:12:20.416  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-20 09:12:20.546  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-20 09:12:21.006  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Services end of validity task is not adjusted
+2026-04-20 09:12:21.107  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-20 09:12:21.130  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Providers reachability task is not adjusted
+2026-04-20 09:12:21.755  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: SERVICEREGISTRY
+2026-04-20 09:12:21.755  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-20 09:12:21.776  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: serviceregistry.smarthome.demo.arrowhead.eu
+2026-04-20 09:12:22.122  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Started ServiceRegistryMain in 7.718 seconds (JVM running for 8.718)
+2026-04-20 09:59:16.453  WARN Chinmayas-MacBook-Pro.local --- [l-1 housekeeper] c.z.h.p.HikariPool                       : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m390ms).
+2026-04-20 09:59:19.138  WARN Chinmayas-MacBook-Pro.local --- [l-2 housekeeper] c.z.h.p.HikariPool                       : HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m399ms).
+2026-04-20 10:02:32.528  WARN Chinmayas-MacBook-Pro.local --- [l-1 housekeeper] c.z.h.p.HikariPool                       : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m46s27ms).
+2026-04-20 10:02:35.172  WARN Chinmayas-MacBook-Pro.local --- [l-2 housekeeper] c.z.h.p.HikariPool                       : HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=2m46s22ms).
+2026-04-20 14:44:12.715  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Starting ServiceRegistryMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 32405 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/serviceregistry.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-20 14:44:12.722  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : No active profile set, falling back to default profiles: default
+2026-04-20 14:44:16.604  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : SRAccessControlFilter is active
+2026-04-20 14:44:19.694  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Init
+2026-04-20 14:44:19.694  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Disabled
+2026-04-20 14:44:20.063  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-20 14:44:20.228  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-20 14:44:21.048  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Services end of validity task is not adjusted
+2026-04-20 14:44:21.192  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-20 14:44:21.227  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Providers reachability task is not adjusted
+2026-04-20 14:44:22.162  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: SERVICEREGISTRY
+2026-04-20 14:44:22.163  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-20 14:44:22.191  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: serviceregistry.smarthome.demo.arrowhead.eu
+2026-04-20 14:44:22.812  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Started ServiceRegistryMain in 10.352 seconds (JVM running for 11.408)
+2026-04-20 14:54:52.947  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Starting ServiceRegistryMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 43860 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/serviceregistry.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-20 14:54:52.951  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : No active profile set, falling back to default profiles: default
+2026-04-20 14:54:54.516  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : SRAccessControlFilter is active
+2026-04-20 14:54:56.178  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Init
+2026-04-20 14:54:56.179  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Disabled
+2026-04-20 14:54:56.487  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-20 14:54:56.616  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-20 14:54:57.037  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Services end of validity task is not adjusted
+2026-04-20 14:54:57.133  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-20 14:54:57.157  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Providers reachability task is not adjusted
+2026-04-20 14:54:57.784  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: SERVICEREGISTRY
+2026-04-20 14:54:57.784  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-20 14:54:57.803  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: serviceregistry.smarthome.demo.arrowhead.eu
+2026-04-20 14:54:58.099  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Started ServiceRegistryMain in 5.32 seconds (JVM running for 5.991)
+2026-04-20 16:55:47.702  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Starting ServiceRegistryMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 55844 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/serviceregistry.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-20 16:55:47.709  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : No active profile set, falling back to default profiles: default
+2026-04-20 16:55:49.240  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : SRAccessControlFilter is active
+2026-04-20 16:55:50.909  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Init
+2026-04-20 16:55:50.910  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Disabled
+2026-04-20 16:55:51.216  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-20 16:55:51.367  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-20 16:55:51.823  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Services end of validity task is not adjusted
+2026-04-20 16:55:51.929  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-20 16:55:51.954  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Providers reachability task is not adjusted
+2026-04-20 16:55:52.605  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: SERVICEREGISTRY
+2026-04-20 16:55:52.605  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-20 16:55:52.625  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: serviceregistry.smarthome.demo.arrowhead.eu
+2026-04-20 16:55:52.967  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Started ServiceRegistryMain in 5.455 seconds (JVM running for 6.105)
+2026-04-20 17:11:12.135  WARN Chinmayas-MacBook-Pro.local --- [l-1 housekeeper] c.z.h.p.HikariPool                       : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m23s789ms).
+2026-04-20 17:11:13.563  WARN Chinmayas-MacBook-Pro.local --- [l-2 housekeeper] c.z.h.p.HikariPool                       : HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=2m23s789ms).
+2026-04-20 18:32:48.941  WARN Chinmayas-MacBook-Pro.local --- [l-1 housekeeper] c.z.h.p.HikariPool                       : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m6s112ms).
+2026-04-20 18:32:50.394  WARN Chinmayas-MacBook-Pro.local --- [l-2 housekeeper] c.z.h.p.HikariPool                       : HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m6s113ms).
+2026-04-27 09:49:13.878  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Starting ServiceRegistryMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 64032 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/serviceregistry.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-27 09:49:13.883  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : No active profile set, falling back to default profiles: default
+2026-04-27 09:49:15.399  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : SRAccessControlFilter is active
+2026-04-27 09:49:17.316  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Init
+2026-04-27 09:49:17.317  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Disabled
+2026-04-27 09:49:17.590  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-27 09:49:17.752  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-27 09:49:18.188  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Services end of validity task is not adjusted
+2026-04-27 09:49:18.285  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-27 09:49:18.306  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Providers reachability task is not adjusted
+2026-04-27 09:49:18.868  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: SERVICEREGISTRY
+2026-04-27 09:49:18.869  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-27 09:49:18.877  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: serviceregistry.smarthome.demo.arrowhead.eu
+2026-04-27 09:49:19.142  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Started ServiceRegistryMain in 5.433 seconds (JVM running for 6.129)
+2026-04-27 09:54:06.698  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Starting ServiceRegistryMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 71334 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/serviceregistry.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-27 09:54:06.707  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : No active profile set, falling back to default profiles: default
+2026-04-27 09:54:09.388  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : SRAccessControlFilter is active
+2026-04-27 09:54:11.904  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Init
+2026-04-27 09:54:11.905  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Disabled
+2026-04-27 09:54:12.281  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-27 09:54:12.434  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-27 09:54:12.951  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Services end of validity task is not adjusted
+2026-04-27 09:54:13.053  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-27 09:54:13.078  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Providers reachability task is not adjusted
+2026-04-27 09:54:13.817  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: SERVICEREGISTRY
+2026-04-27 09:54:13.817  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-27 09:54:13.826  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: serviceregistry.smarthome.demo.arrowhead.eu
+2026-04-27 09:54:14.103  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Started ServiceRegistryMain in 7.574 seconds (JVM running for 8.224)
+2026-04-27 10:09:48.986  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Starting ServiceRegistryMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 86291 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/serviceregistry.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-27 10:09:48.991  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : No active profile set, falling back to default profiles: default
+2026-04-27 10:09:50.885  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : SRAccessControlFilter is active
+2026-04-27 10:09:52.746  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Init
+2026-04-27 10:09:52.746  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Disabled
+2026-04-27 10:09:53.046  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-27 10:09:53.248  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-27 10:09:53.729  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Services end of validity task is not adjusted
+2026-04-27 10:09:53.840  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-27 10:09:53.868  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Providers reachability task is not adjusted
+2026-04-27 10:09:54.526  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: SERVICEREGISTRY
+2026-04-27 10:09:54.526  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-27 10:09:54.536  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: serviceregistry.smarthome.demo.arrowhead.eu
+2026-04-27 10:09:54.750  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Started ServiceRegistryMain in 5.936 seconds (JVM running for 6.617)
+2026-04-27 17:04:57.934  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Starting ServiceRegistryMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 28906 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/serviceregistry.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-27 17:04:57.940  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : No active profile set, falling back to default profiles: default
+2026-04-27 17:04:59.423  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : SRAccessControlFilter is active
+2026-04-27 17:05:01.185  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Init
+2026-04-27 17:05:01.186  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.p.c.CoapServiceRegistry          : CoAP Protocol Disabled
+2026-04-27 17:05:01.579  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-27 17:05:01.725  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-27 17:05:02.209  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Services end of validity task is not adjusted
+2026-04-27 17:05:02.310  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-27 17:05:02.333  INFO Chinmayas-MacBook-Pro.local --- [           main] .c.s.q.t.ProvidersReachabilityTaskConfig : Providers reachability task is not adjusted
+2026-04-27 17:05:03.004  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: SERVICEREGISTRY
+2026-04-27 17:05:03.004  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-27 17:05:03.020  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: serviceregistry.smarthome.demo.arrowhead.eu
+2026-04-27 17:05:03.325  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.s.ServiceRegistryMain              : Started ServiceRegistryMain in 5.57 seconds (JVM running for 6.249)

@@ -1,0 +1,105 @@
+2026-04-20 09:12:28.247  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : Starting AuthorizationMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 22075 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/authorization.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-20 09:12:28.251  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : No active profile set, falling back to default profiles: default
+2026-04-20 09:12:29.971  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : AuthAccessControlFilter is active
+2026-04-20 09:12:32.303  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-20 09:12:32.461  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-20 09:12:32.958  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-20 09:12:33.599  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: AUTHORIZATION
+2026-04-20 09:12:33.599  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-20 09:12:33.620  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: authorization.smarthome.demo.arrowhead.eu
+2026-04-20 09:12:33.886  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 09:12:34.111  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system AUTHORIZATION published 5 service(s).
+2026-04-20 09:12:34.225  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : Started AuthorizationMain in 6.195 seconds (JVM running for 6.819)
+2026-04-20 09:59:29.794  WARN Chinmayas-MacBook-Pro.local --- [l-1 housekeeper] c.z.h.p.HikariPool                       : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m398ms).
+2026-04-20 09:59:31.083  WARN Chinmayas-MacBook-Pro.local --- [l-2 housekeeper] c.z.h.p.HikariPool                       : HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m402ms).
+2026-04-20 10:02:45.887  WARN Chinmayas-MacBook-Pro.local --- [l-1 housekeeper] c.z.h.p.HikariPool                       : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m46s26ms).
+2026-04-20 10:02:47.125  WARN Chinmayas-MacBook-Pro.local --- [l-2 housekeeper] c.z.h.p.HikariPool                       : HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=2m46s28ms).
+2026-04-20 10:49:09.018  INFO Chinmayas-MacBook-Pro.local --- [       Thread-3] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 10:49:09.102  INFO Chinmayas-MacBook-Pro.local --- [       Thread-3] e.a.c.ApplicationInitListener            : Core system AUTHORIZATION revoked 5 service(s).
+2026-04-20 14:44:28.227  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : Starting AuthorizationMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 32677 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/authorization.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-20 14:44:28.236  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : No active profile set, falling back to default profiles: default
+2026-04-20 14:44:30.699  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : AuthAccessControlFilter is active
+2026-04-20 14:44:35.740  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-20 14:44:36.113  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-20 14:44:37.364  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-20 14:44:38.477  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: AUTHORIZATION
+2026-04-20 14:44:38.478  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-20 14:44:38.514  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: authorization.smarthome.demo.arrowhead.eu
+2026-04-20 14:44:38.940  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 14:44:39.376  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system AUTHORIZATION published 5 service(s).
+2026-04-20 14:44:39.616  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : Started AuthorizationMain in 11.663 seconds (JVM running for 12.352)
+2026-04-20 14:53:36.925  INFO Chinmayas-MacBook-Pro.local --- [       Thread-3] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 14:53:36.983  INFO Chinmayas-MacBook-Pro.local --- [       Thread-3] e.a.c.ApplicationInitListener            : Core system AUTHORIZATION revoked 5 service(s).
+2026-04-20 14:56:46.307  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : Starting AuthorizationMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 45908 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/authorization.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-20 14:56:46.311  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : No active profile set, falling back to default profiles: default
+2026-04-20 14:56:47.759  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : AuthAccessControlFilter is active
+2026-04-20 14:56:49.921  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-20 14:56:50.061  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-20 14:56:50.511  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-20 14:56:51.102  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: AUTHORIZATION
+2026-04-20 14:56:51.102  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-20 14:56:51.138  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: authorization.smarthome.demo.arrowhead.eu
+2026-04-20 14:56:51.268  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 14:56:51.470  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system AUTHORIZATION published 5 service(s).
+2026-04-20 14:56:51.580  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : Started AuthorizationMain in 5.45 seconds (JVM running for 6.09)
+2026-04-20 16:20:10.778  INFO Chinmayas-MacBook-Pro.local --- [       Thread-3] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 16:20:10.879  INFO Chinmayas-MacBook-Pro.local --- [       Thread-3] e.a.c.ApplicationInitListener            : Core system AUTHORIZATION revoked 5 service(s).
+2026-04-20 16:55:56.615  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : Starting AuthorizationMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 55947 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/authorization.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-20 16:55:56.620  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : No active profile set, falling back to default profiles: default
+2026-04-20 16:55:58.024  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : AuthAccessControlFilter is active
+2026-04-20 16:56:00.047  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-20 16:56:00.176  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-20 16:56:00.616  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-20 16:56:01.227  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: AUTHORIZATION
+2026-04-20 16:56:01.228  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-20 16:56:01.247  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: authorization.smarthome.demo.arrowhead.eu
+2026-04-20 16:56:01.484  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 16:56:01.692  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system AUTHORIZATION published 5 service(s).
+2026-04-20 16:56:01.812  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : Started AuthorizationMain in 5.368 seconds (JVM running for 5.871)
+2026-04-20 17:11:21.016  WARN Chinmayas-MacBook-Pro.local --- [l-1 housekeeper] c.z.h.p.HikariPool                       : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m23s793ms).
+2026-04-20 17:11:22.133  WARN Chinmayas-MacBook-Pro.local --- [l-2 housekeeper] c.z.h.p.HikariPool                       : HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=2m23s790ms).
+2026-04-20 18:32:57.812  WARN Chinmayas-MacBook-Pro.local --- [l-1 housekeeper] c.z.h.p.HikariPool                       : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m6s109ms).
+2026-04-20 18:32:58.379  INFO Chinmayas-MacBook-Pro.local --- [       Thread-3] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-20 18:32:58.445  INFO Chinmayas-MacBook-Pro.local --- [       Thread-3] e.a.c.ApplicationInitListener            : Core system AUTHORIZATION revoked 5 service(s).
+2026-04-27 09:54:23.187  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : Starting AuthorizationMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 71657 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/authorization.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-27 09:54:23.192  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : No active profile set, falling back to default profiles: default
+2026-04-27 09:54:24.623  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : AuthAccessControlFilter is active
+2026-04-27 09:54:26.657  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-27 09:54:26.803  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-27 09:54:27.326  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-27 09:54:28.044  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: AUTHORIZATION
+2026-04-27 09:54:28.045  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-27 09:54:28.056  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: authorization.smarthome.demo.arrowhead.eu
+2026-04-27 09:54:28.285  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-27 09:54:28.479  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system AUTHORIZATION published 5 service(s).
+2026-04-27 09:54:28.530  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : Started AuthorizationMain in 5.508 seconds (JVM running for 6.071)
+2026-04-27 10:09:28.328 ERROR Chinmayas-MacBook-Pro.local --- [       Thread-3] e.a.c.h.HttpService                      : UnavailableServerException occurred at https://127.0.0.1:8443/serviceregistry/echo
+2026-04-27 10:09:28.328 ERROR Chinmayas-MacBook-Pro.local --- [       Thread-3] e.a.c.ApplicationInitListener            : Could not get any response from: https://127.0.0.1:8443/serviceregistry/echo
+2026-04-27 10:10:05.738  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : Starting AuthorizationMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 86619 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/authorization.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-27 10:10:05.742  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : No active profile set, falling back to default profiles: default
+2026-04-27 10:10:07.266  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : AuthAccessControlFilter is active
+2026-04-27 10:10:09.221  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-27 10:10:09.378  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-27 10:10:09.850  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-27 10:10:10.453  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: AUTHORIZATION
+2026-04-27 10:10:10.453  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-27 10:10:10.463  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: authorization.smarthome.demo.arrowhead.eu
+2026-04-27 10:10:10.611  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-27 10:10:10.884  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system AUTHORIZATION published 5 service(s).
+2026-04-27 10:10:10.950  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : Started AuthorizationMain in 5.381 seconds (JVM running for 5.931)
+2026-04-27 10:35:35.489  INFO Chinmayas-MacBook-Pro.local --- [       Thread-3] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-27 10:35:35.536  INFO Chinmayas-MacBook-Pro.local --- [       Thread-3] e.a.c.ApplicationInitListener            : Core system AUTHORIZATION revoked 5 service(s).
+2026-04-27 17:05:09.497  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : Starting AuthorizationMain v4.6.2 on Chinmayas-MacBook-Pro.local with PID 29182 (/Users/chinmayakumarnayak/Desktop/smarthome-demo/authorization.jar started by chinmayakumarnayak in /Users/chinmayakumarnayak/Desktop/smarthome-demo)
+2026-04-27 17:05:09.507  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : No active profile set, falling back to default profiles: default
+2026-04-27 17:05:11.194  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : AuthAccessControlFilter is active
+2026-04-27 17:05:13.367  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.q.u.UriCrawlerTaskConfig           : URI Crawler task scheduled.
+2026-04-27 17:05:13.512  WARN Chinmayas-MacBook-Pro.local --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-27 17:05:14.006  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.f.ArrowheadFilter                  : PayloadSizeFilter is active
+2026-04-27 17:05:14.650  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system name: AUTHORIZATION
+2026-04-27 17:05:14.650  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server mode: SECURED
+2026-04-27 17:05:14.660  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Server CN: authorization.smarthome.demo.arrowhead.eu
+2026-04-27 17:05:14.891  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-27 17:05:15.147  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.ApplicationInitListener            : Core system AUTHORIZATION published 5 service(s).
+2026-04-27 17:05:15.203  INFO Chinmayas-MacBook-Pro.local --- [           main] e.a.c.a.AuthorizationMain                : Started AuthorizationMain in 5.88 seconds (JVM running for 6.489)
+2026-04-27 18:21:06.775  INFO Chinmayas-MacBook-Pro.local --- [       Thread-3] e.a.c.ApplicationInitListener            : Service Registry is accessible...
+2026-04-27 18:21:06.872  INFO Chinmayas-MacBook-Pro.local --- [       Thread-3] e.a.c.ApplicationInitListener            : Core system AUTHORIZATION revoked 5 service(s).
