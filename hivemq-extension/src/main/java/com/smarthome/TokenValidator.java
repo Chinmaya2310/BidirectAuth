@@ -94,6 +94,27 @@ public class TokenValidator {
             if (jwt == null) return ValidationResult.fail("Cannot resolve JWT");
             DecodedJWT decoded = verifySignature(jwt);
             if (decoded == null) return ValidationResult.fail("Invalid JWT signature");
+
+            // ===== Milestone 4: enforce systemName + topic + action =====
+            // 1. Verify the cid (consumer) in the token matches the requesting client.
+            String consumerName = getClaim(decoded, "cid");
+            if (consumerName == null) return ValidationResult.fail("Missing cid claim");
+            String baseName = consumerName.split("\\.")[0];
+            if (!baseName.equals(systemName))
+                return ValidationResult.fail("systemName mismatch: token=" + baseName + " client=" + systemName);
+
+            // 2. Verify the sid (service id) authorizes this topic + action.
+            String sid = getClaim(decoded, "sid");
+            if (sid == null) return ValidationResult.fail("Missing sid claim");
+            ServicePerm perm = SERVICE_PERMS.get(sid);
+            if (perm == null) return ValidationResult.fail("Unknown service id: " + sid);
+            if (!perm.topic.equals(topic))
+                return ValidationResult.fail("Topic mismatch: token-service=" + sid +
+                    " (topic=" + perm.topic + ") packet-topic=" + topic);
+            if (!perm.action.equals(expectedAction))
+                return ValidationResult.fail("Action mismatch: token-service=" + sid +
+                    " (action=" + perm.action + ") packet-action=" + expectedAction);
+
             return ValidationResult.ok();
         } catch (TokenExpiredException e) {
             return ValidationResult.fail("JWT expired");
@@ -181,6 +202,14 @@ public class TokenValidator {
         if (!claim.isNull()) return claim.asString();
         return null;
     }
+
+    // Milestone 4: maps Arrowhead service-id (sid) → permitted topic + action.
+    // TODO: fetch from Service Registry on startup instead of hardcoding.
+    private record ServicePerm(String topic, String action) {}
+    private static final java.util.Map<String, ServicePerm> SERVICE_PERMS = java.util.Map.of(
+        "temperature-reading",   new ServicePerm("room/temperature", "PUBLISH"),
+        "temperature-subscribe", new ServicePerm("room/temperature", "SUBSCRIBE")
+    );
 
     public record ValidationResult(boolean valid, String reason) {
         public static ValidationResult ok() { return new ValidationResult(true, null); }

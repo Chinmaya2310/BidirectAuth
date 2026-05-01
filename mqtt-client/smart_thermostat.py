@@ -1,6 +1,10 @@
 import json, sys, requests, warnings, secrets, ssl
 warnings.filterwarnings("ignore")
 sys.path.insert(0, ".")
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.exceptions import InvalidSignature
+import base64
 import paho.mqtt.client as mqtt
 
 BROKER       = "127.0.0.1"
@@ -59,6 +63,10 @@ def request_orchestration():
     return broker_address, broker_port, encrypted_token
 
 def main():
+    # Load broker.pub once for brokerProof verification
+    with open('certificates/hivemq-broker.pub', 'rb') as f:
+        broker_pub_key = serialization.load_pem_public_key(f.read())
+
     print("=== Phase 1: Arrowhead Orchestration ===")
     broker, port, token = request_orchestration()
 
@@ -91,9 +99,24 @@ def main():
             bp = user_props.get("brokerProof")
             if bn and bp:
                 print(f"[THERMOSTAT] brokerNonce received: {bn}")
-                print(f"[THERMOSTAT] brokerProof received: {bp[:40]}... ({len(bp)} chars)")
+                # Verify brokerProof = sign(clientNonce || brokerNonce, broker.priv)
+                expected = (client_nonce + bn).encode("utf-8")
+                try:
+                    broker_pub_key.verify(
+                        base64.b64decode(bp),
+                        expected,
+                        padding.PKCS1v15(),
+                        hashes.SHA256(),
+                    )
+                    print(f"[THERMOSTAT] brokerProof VALID — broker identity confirmed")
+                except InvalidSignature:
+                    print(f"[THERMOSTAT] brokerProof INVALID — possible spoofed broker, disconnecting")
+                    c.disconnect()
+                    sys.exit(1)
             else:
-                print(f"[THERMOSTAT] WARNING: CONNACK missing brokerNonce/brokerProof")
+                print(f"[THERMOSTAT] CONNACK missing brokerNonce/brokerProof — disconnecting")
+                c.disconnect()
+                sys.exit(1)
         if rc == 0:
             print(f"[THERMOSTAT] Connected to HiveMQ successfully")
             sub_props = mqtt.Properties(mqtt.PacketTypes.SUBSCRIBE)
