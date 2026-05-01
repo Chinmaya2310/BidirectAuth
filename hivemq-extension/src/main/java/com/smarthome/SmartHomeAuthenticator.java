@@ -18,11 +18,37 @@ import java.security.interfaces.RSAPrivateKey;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class SmartHomeAuthenticator implements EnhancedAuthenticator {
 
     private static final Logger log = LoggerFactory.getLogger(SmartHomeAuthenticator.class);
     private static final SecureRandom secureRandom = new SecureRandom();
+
+    // Milestone 5: nonce freshness store — rejects replayed CONNECT packets.
+    // Each nonce is remembered for NONCE_TTL_MS; a background sweeper removes expired entries.
+    private static final long NONCE_TTL_MS = 5 * 60 * 1000L; // 5 minutes
+    private static final ConcurrentHashMap<String, Long> seenNonces = new ConcurrentHashMap<>();
+    private static final ScheduledExecutorService nonceSweeper = Executors.newSingleThreadScheduledExecutor(r -> {
+        Thread t = new Thread(r, "BidirectAuth-NonceSweeper");
+        t.setDaemon(true);
+        return t;
+    });
+    static {
+        nonceSweeper.scheduleAtFixedRate(() -> {
+            long now = System.currentTimeMillis();
+            int before = seenNonces.size();
+            seenNonces.entrySet().removeIf(e -> e.getValue() <= now);
+            int after = seenNonces.size();
+            if (before != after) {
+                log.info("[NONCE-SWEEP] removed {} expired nonces, {} remain",
+                        before - after, after);
+            }
+        }, 60, 60, TimeUnit.SECONDS);
+    }
 
     private final TokenValidator tokenValidator;
 
@@ -43,6 +69,18 @@ public class SmartHomeAuthenticator implements EnhancedAuthenticator {
 
         if (clientNonce.isPresent()) {
             log.info("[CONNECT] clientNonce: {}", clientNonce.get());
+
+            // ===== Milestone 5: freshness check =====
+            String nonce = clientNonce.get();
+            long now = System.currentTimeMillis();
+            Long previous = seenNonces.putIfAbsent(nonce, now + NONCE_TTL_MS);
+            if (previous != null) {
+                log.warn("[CONNECT] REJECTED {} - replay detected (nonce {} already seen)",
+                        clientId, nonce);
+                output.failAuthentication(DisconnectedReasonCode.NOT_AUTHORIZED,
+                        "Replay detected (clientNonce already used)");
+                return;
+            }
         } else {
             log.warn("[CONNECT] No clientNonce - old client?");
         }
