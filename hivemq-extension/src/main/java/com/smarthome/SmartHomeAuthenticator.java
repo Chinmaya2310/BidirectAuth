@@ -30,6 +30,14 @@ public class SmartHomeAuthenticator implements SimpleAuthenticator {
         UserProperties props = input.getConnectPacket().getUserProperties();
         Optional<String> systemName = getProperty(props, "systemName");
         Optional<String> token = getProperty(props, "arrowheadToken");
+        Optional<String> clientNonce = getProperty(props, "clientNonce");
+
+        // Log clientNonce - replay protection added in a later milestone
+        if (clientNonce.isPresent()) {
+            log.info("[CONNECT] clientNonce: {}", clientNonce.get());
+        } else {
+            log.warn("[CONNECT] No clientNonce - old client?");
+        }
 
         // Step 2 - Check systemName exists
         if (systemName.isEmpty()) {

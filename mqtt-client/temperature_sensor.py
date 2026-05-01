@@ -1,4 +1,4 @@
-import time, random, json, sys, requests, warnings
+import time, random, json, sys, requests, warnings, secrets
 warnings.filterwarnings("ignore")
 sys.path.insert(0, ".")
 import paho.mqtt.client as mqtt
@@ -66,11 +66,15 @@ def main():
     broker, port, token = request_orchestration()
 
     print("\n=== Phase 2: Connect to HiveMQ with Arrowhead token ===")
+    client_nonce = secrets.token_hex(16)  # 16 bytes = 32 hex chars
+    print(f"[SENSOR] clientNonce: {client_nonce}")
+
     client = mqtt.Client(client_id=SYSTEM_NAME, protocol=mqtt.MQTTv5)
     connect_props = mqtt.Properties(mqtt.PacketTypes.CONNECT)
     connect_props.UserProperty = [
         ("systemName", SYSTEM_NAME),
-        ("arrowheadToken", token)
+        ("arrowheadToken", token),
+        ("clientNonce", client_nonce)
     ]
 
     def on_connect(c, userdata, flags, rc, props=None):
