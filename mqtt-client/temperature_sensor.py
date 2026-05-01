@@ -87,6 +87,16 @@ def main():
     ]
 
     def on_connect(c, userdata, flags, rc, props=None):
+        # === BidirectAuth: read brokerNonce + brokerProof from CONNACK ===
+        if props is not None and hasattr(props, "UserProperty"):
+            user_props = dict(props.UserProperty or [])
+            bn = user_props.get("brokerNonce")
+            bp = user_props.get("brokerProof")
+            if bn and bp:
+                print(f"[SENSOR] brokerNonce received: {bn}")
+                print(f"[SENSOR] brokerProof received: {bp[:40]}... ({len(bp)} chars)")
+            else:
+                print(f"[SENSOR] WARNING: CONNACK missing brokerNonce/brokerProof")
         if rc == 0:
             print(f"[SENSOR] Connected to HiveMQ successfully")
         else:
