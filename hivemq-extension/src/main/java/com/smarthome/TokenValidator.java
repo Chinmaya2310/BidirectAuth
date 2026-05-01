@@ -29,6 +29,11 @@ public class TokenValidator {
     private final RSAPublicKey arrowheadPublicKey;
     private RSAPrivateKey brokerPrivateKey;
 
+    public RSAPrivateKey getBrokerPrivateKey() {
+        return brokerPrivateKey;
+    }
+
+
     static {
         Security.addProvider(new BouncyCastleProvider());
     }
