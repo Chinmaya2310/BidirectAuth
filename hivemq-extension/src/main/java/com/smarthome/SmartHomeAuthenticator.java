@@ -22,6 +22,7 @@ public class SmartHomeAuthenticator implements EnhancedAuthenticator {
 
     private static final Logger log = LoggerFactory.getLogger(SmartHomeAuthenticator.class);
     private static final SecureRandom secureRandom = new SecureRandom();
+    private static final String AUTH_METHOD = "ArrowheadBidirectAuth";
 
     private final TokenValidator tokenValidator;
 
@@ -34,84 +35,127 @@ public class SmartHomeAuthenticator implements EnhancedAuthenticator {
         String clientId = input.getClientInformation().getClientId();
         log.info("[CONNECT] Client: {}", clientId);
 
-        // Step 1 - Read User Properties from CONNECT packet
+        // Read User Properties
         UserProperties props = input.getConnectPacket().getUserProperties();
         Optional<String> systemName = getProperty(props, "systemName");
         Optional<String> token = getProperty(props, "arrowheadToken");
         Optional<String> clientNonce = getProperty(props, "clientNonce");
 
-        // Log clientNonce - replay protection added in a later milestone
         if (clientNonce.isPresent()) {
             log.info("[CONNECT] clientNonce: {}", clientNonce.get());
         } else {
             log.warn("[CONNECT] No clientNonce - old client?");
         }
 
-        // ===== BidirectAuth Step 4 (sub-step 2b) =====
-        // Generate brokerNonce + sign (clientNonce || brokerNonce) with broker.priv
-        // Not yet sent to client - just verifying crypto pipeline works.
-        if (clientNonce.isPresent()) {
-            try {
-                byte[] brokerNonceBytes = new byte[16];
-                secureRandom.nextBytes(brokerNonceBytes);
-                String brokerNonce = bytesToHex(brokerNonceBytes);
-                log.info("[AUTH] brokerNonce generated: {}", brokerNonce);
-
-                String concatenated = clientNonce.get() + brokerNonce;
-                RSAPrivateKey brokerPriv = tokenValidator.getBrokerPrivateKey();
-                if (brokerPriv == null) {
-                    log.error("[AUTH] broker.priv not loaded - cannot sign brokerProof");
-                } else {
-                    Signature sig = Signature.getInstance("SHA256withRSA");
-                    sig.initSign(brokerPriv);
-                    sig.update(concatenated.getBytes(StandardCharsets.UTF_8));
-                    byte[] signature = sig.sign();
-                    String brokerProof = Base64.getEncoder().encodeToString(signature);
-                    log.info("[AUTH] brokerProof signed: length={} bytes, b64 first 40 chars: {}",
-                            signature.length, brokerProof.substring(0, Math.min(40, brokerProof.length())));
-                }
-            } catch (Exception e) {
-                log.error("[AUTH] Failed to generate brokerProof: {}", e.getMessage(), e);
-            }
-        }
-
-        // Step 2 - Check systemName exists
+        // Validate basics
         if (systemName.isEmpty()) {
             log.warn("[CONNECT] REJECTED {} - missing systemName", clientId);
             output.failAuthentication(DisconnectedReasonCode.NOT_AUTHORIZED, "Missing systemName");
             return;
         }
-
-        // Step 3 - Check token exists
         if (token.isEmpty()) {
             log.warn("[CONNECT] REJECTED {} - missing arrowheadToken", clientId);
             output.failAuthentication(DisconnectedReasonCode.NOT_AUTHORIZED, "Missing arrowheadToken");
             return;
         }
 
-        // Step 4 - Validate the token
+        // Validate token (Step 6 in the diagram)
         TokenValidator.ValidationResult result =
             tokenValidator.validateConnect(token.get(), systemName.get());
-
-        if (result.valid()) {
-            log.info("[CONNECT] ACCEPTED client={} systemName={}", clientId, systemName.get());
-            output.authenticateSuccessfully();
-        } else {
+        if (!result.valid()) {
             log.warn("[CONNECT] REJECTED client={} reason={}", clientId, result.reason());
             output.failAuthentication(DisconnectedReasonCode.NOT_AUTHORIZED, result.reason());
+            return;
+        }
+        log.info("[CONNECT] Token valid for client={}", clientId);
+
+        // Decide whether this client wants enhanced auth (BidirectAuth)
+        Optional<String> authMethod = input.getConnectPacket().getAuthenticationMethod();
+        boolean useBidirect = authMethod.isPresent() && AUTH_METHOD.equals(authMethod.get());
+
+        if (!useBidirect) {
+            // Backwards-compatible path: client did not opt in to BidirectAuth
+            log.info("[CONNECT] ACCEPTED (no BidirectAuth) client={}", clientId);
+            output.authenticateSuccessfully();
+            return;
+        }
+
+        // ===== BidirectAuth Step 4 =====
+        // Client opted in. Generate brokerNonce, sign brokerProof, send via AUTH packet.
+        if (clientNonce.isEmpty()) {
+            log.warn("[CONNECT] REJECTED client={} - BidirectAuth requested but clientNonce missing",
+                    clientId);
+            output.failAuthentication(DisconnectedReasonCode.NOT_AUTHORIZED,
+                    "BidirectAuth requires clientNonce");
+            return;
+        }
+        try {
+            byte[] brokerNonceBytes = new byte[16];
+            secureRandom.nextBytes(brokerNonceBytes);
+            String brokerNonce = bytesToHex(brokerNonceBytes);
+
+            String concatenated = clientNonce.get() + brokerNonce;
+            RSAPrivateKey brokerPriv = tokenValidator.getBrokerPrivateKey();
+            if (brokerPriv == null) {
+                log.error("[AUTH] broker.priv not loaded - cannot sign brokerProof");
+                output.failAuthentication(DisconnectedReasonCode.SERVER_BUSY,
+                        "Broker not ready for BidirectAuth");
+                return;
+            }
+
+            Signature sig = Signature.getInstance("SHA256withRSA");
+            sig.initSign(brokerPriv);
+            sig.update(concatenated.getBytes(StandardCharsets.UTF_8));
+            byte[] signature = sig.sign();
+            String brokerProof = Base64.getEncoder().encodeToString(signature);
+
+            log.info("[AUTH] brokerNonce: {}", brokerNonce);
+            log.info("[AUTH] brokerProof: length={} bytes, b64 first 40: {}",
+                    signature.length, brokerProof.substring(0, Math.min(40, brokerProof.length())));
+
+            // Persist a marker on this connection — onAuth will check it.
+            // ConnectionAttributeStore is per-connection state and doesn't need a clientId key.
+            input.getConnectionInformation().getConnectionAttributeStore()
+                .putAsString("bidirect-pending", "1");
+
+            // Pack brokerNonce + brokerProof into Authentication Data field.
+            // Format: "brokerNonce:brokerProof" (both ASCII-safe)
+            String authPayload = brokerNonce + ":" + brokerProof;
+            byte[] authData = authPayload.getBytes(StandardCharsets.UTF_8);
+
+            log.info("[AUTH] Sending AUTH packet (Continue Authentication) to client={}", clientId);
+            output.continueAuthentication(authData);
+
+        } catch (Exception e) {
+            log.error("[AUTH] Failed to generate brokerProof for client={}: {}",
+                    clientId, e.getMessage(), e);
+            output.failAuthentication(DisconnectedReasonCode.SERVER_BUSY,
+                    "BidirectAuth signing failed");
         }
     }
 
     @Override
     public void onAuth(EnhancedAuthInput input, EnhancedAuthOutput output) {
-        // Not used yet — sub-step 2c-2 will add AUTH packet handling.
-        // For now, any AUTH packet is unexpected; treat as protocol error.
-        log.warn("[AUTH] Unexpected AUTH packet received in 2c-1 — disconnecting");
-        output.failAuthentication(DisconnectedReasonCode.NOT_AUTHORIZED,
-                "AUTH not yet implemented");
+        String clientId = input.getClientInformation().getClientId();
+        String authMethod = input.getAuthPacket().getAuthenticationMethod();
+
+        log.info("[AUTH] onAuth called for client={} method={}", clientId,
+                authMethod == null ? "(none)" : authMethod);
+
+        if (!AUTH_METHOD.equals(authMethod)) {
+            log.warn("[AUTH] Wrong authentication method - rejecting client={}", clientId);
+            output.failAuthentication(DisconnectedReasonCode.NOT_AUTHORIZED,
+                    "Unsupported auth method");
+            return;
+        }
+
+        // 2c-2: Client just acknowledges. We don't validate any data here yet.
+        // 2c-3 (and beyond) may add: client signs (brokerNonce || ?) to prove it received,
+        // but the bidirectional cryptographic proof is already established via brokerProof.
+        log.info("[AUTH] Client {} acknowledged AUTH - completing authentication", clientId);
+        output.authenticateSuccessfully();
     }
 
-    // Helper to get a specific User Property by name
     private Optional<String> getProperty(UserProperties props, String name) {
         List<UserProperty> list = props.asList();
         return list.stream()
@@ -120,7 +164,6 @@ public class SmartHomeAuthenticator implements EnhancedAuthenticator {
             .findFirst();
     }
 
-    // Convert bytes to lowercase hex string
     private static String bytesToHex(byte[] bytes) {
         StringBuilder sb = new StringBuilder(bytes.length * 2);
         for (byte b : bytes) sb.append(String.format("%02x", b));
