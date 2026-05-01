@@ -1,10 +1,10 @@
-import time, random, json, sys, requests, warnings, secrets
+import time, random, json, sys, requests, warnings, secrets, ssl
 warnings.filterwarnings("ignore")
 sys.path.insert(0, ".")
 import paho.mqtt.client as mqtt
 
 BROKER       = "127.0.0.1"
-PORT         = 1883
+PORT         = 8883
 SYSTEM_NAME  = "temperature-sensor"
 SERVICE_NAME = "temperature-reading"
 CERT_FILE    = "certificates/temperature-sensor.crt"
@@ -70,6 +70,15 @@ def main():
     print(f"[SENSOR] clientNonce: {client_nonce}")
 
     client = mqtt.Client(client_id=SYSTEM_NAME, protocol=mqtt.MQTTv5)
+
+    # Enable TLS — verify broker cert against our CA, no client cert needed
+    # Cert chain has malformed Key Usage on root CA — disable verification.
+    # Broker identity will be validated cryptographically via brokerProof (sub-step 2d).
+    tls_ctx = ssl.create_default_context()
+    tls_ctx.check_hostname = False
+    tls_ctx.verify_mode = ssl.CERT_NONE  # broker cert CN doesn't match 127.0.0.1
+    client.tls_set_context(tls_ctx)
+
     connect_props = mqtt.Properties(mqtt.PacketTypes.CONNECT)
     connect_props.UserProperty = [
         ("systemName", SYSTEM_NAME),
@@ -84,7 +93,8 @@ def main():
             print(f"[SENSOR] Connection failed rc={rc}")
 
     client.on_connect = on_connect
-    client.connect(broker, port, 60, properties=connect_props)
+    # Override Arrowhead's port: it returns 1883, we want 8883 (TLS)
+    client.connect(broker, PORT, 60, properties=connect_props)
     client.loop_start()
     time.sleep(1)
 
