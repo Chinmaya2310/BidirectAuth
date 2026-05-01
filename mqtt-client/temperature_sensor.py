@@ -5,6 +5,7 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.exceptions import InvalidSignature
 import base64
+import jwt
 import paho.mqtt.client as mqtt
 
 BROKER       = "127.0.0.1"
@@ -66,9 +67,10 @@ def request_orchestration():
     return broker_address, broker_port, encrypted_token
 
 def main():
-    # Load broker.pub once for brokerProof verification
-    with open('certificates/hivemq-broker.pub', 'rb') as f:
-        broker_pub_key = serialization.load_pem_public_key(f.read())
+    # Load Arrowhead's public key (trust anchor for broker credential validation)
+    with open('certificates/authorization.pub', 'rb') as f:
+        arrowhead_pub_key = serialization.load_pem_public_key(f.read())
+    print(f"[SENSOR] Loaded Arrowhead public key for broker credential validation")
 
     print("=== Phase 1: Arrowhead Orchestration ===")
     broker, port, token = request_orchestration()
@@ -100,24 +102,52 @@ def main():
             user_props = dict(props.UserProperty or [])
             bn = user_props.get("brokerNonce")
             bp = user_props.get("brokerProof")
-            if bn and bp:
-                print(f"[SENSOR] brokerNonce received: {bn}")
-                # Verify brokerProof = sign(clientNonce || brokerNonce, broker.priv)
-                expected = (client_nonce + bn).encode("utf-8")
-                try:
-                    broker_pub_key.verify(
-                        base64.b64decode(bp),
-                        expected,
-                        padding.PKCS1v15(),
-                        hashes.SHA256(),
-                    )
-                    print(f"[SENSOR] brokerProof VALID — broker identity confirmed")
-                except InvalidSignature:
-                    print(f"[SENSOR] brokerProof INVALID — possible spoofed broker, disconnecting")
-                    c.disconnect()
-                    sys.exit(1)
-            else:
-                print(f"[SENSOR] CONNACK missing brokerNonce/brokerProof — disconnecting")
+            bc = user_props.get("brokerCredential")
+            
+            if not (bn and bp and bc):
+                print(f"[SENSOR] CONNACK missing brokerNonce/brokerProof/brokerCredential — disconnecting")
+                c.disconnect()
+                sys.exit(1)
+            
+            print(f"[SENSOR] brokerNonce received: {bn}")
+            print(f"[SENSOR] brokerCredential received ({len(bc)} chars)")
+            
+            # Step 1: Validate Broker-Credential-JWT signature using Arrowhead's public key
+            try:
+                claims = jwt.decode(bc, arrowhead_pub_key, algorithms=["RS256"])
+                print(f"[SENSOR] ✅ Broker credential validated: {claims['sub']}")
+                
+                # Extract broker's public key from validated credential
+                broker_pub_pem = claims['brokerPub']
+                broker_pub_key = serialization.load_pem_public_key(broker_pub_pem.encode('utf-8'))
+                print(f"[SENSOR] ✅ Broker public key extracted from validated credential")
+                
+            except jwt.InvalidSignatureError:
+                print(f"[SENSOR] ❌ Broker credential signature INVALID!")
+                c.disconnect()
+                sys.exit(1)
+            except jwt.ExpiredSignatureError:
+                print(f"[SENSOR] ❌ Broker credential EXPIRED!")
+                c.disconnect()
+                sys.exit(1)
+            except Exception as e:
+                print(f"[SENSOR] ❌ Failed to validate broker credential: {e}")
+                c.disconnect()
+                sys.exit(1)
+            
+            # Step 2: Verify brokerProof using broker's public key from validated credential
+            expected = (client_nonce + bn).encode("utf-8")
+            try:
+                broker_pub_key.verify(
+                    base64.b64decode(bp),
+                    expected,
+                    padding.PKCS1v15(),
+                    hashes.SHA256(),
+                )
+                print(f"[SENSOR] ✅ brokerProof VALID — broker identity confirmed")
+                print(f"[SENSOR] 🔒 MUTUAL AUTHENTICATION COMPLETE")
+            except InvalidSignature:
+                print(f"[SENSOR] ❌ brokerProof INVALID!")
                 c.disconnect()
                 sys.exit(1)
         if rc == 0:

@@ -5,6 +5,7 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.exceptions import InvalidSignature
 import base64
+import jwt
 import paho.mqtt.client as mqtt
 
 BROKER       = "127.0.0.1"
@@ -63,9 +64,10 @@ def request_orchestration():
     return broker_address, broker_port, encrypted_token
 
 def main():
-    # Load broker.pub once for brokerProof verification
-    with open('certificates/hivemq-broker.pub', 'rb') as f:
-        broker_pub_key = serialization.load_pem_public_key(f.read())
+    # Load Arrowhead's public key (trust anchor for broker credential validation)
+    with open('certificates/authorization.pub', 'rb') as f:
+        arrowhead_pub_key = serialization.load_pem_public_key(f.read())
+    print(f"[THERMOSTAT] Loaded Arrowhead public key for broker credential validation")
 
     print("=== Phase 1: Arrowhead Orchestration ===")
     broker, port, token = request_orchestration()
@@ -97,24 +99,51 @@ def main():
             user_props = dict(props.UserProperty or [])
             bn = user_props.get("brokerNonce")
             bp = user_props.get("brokerProof")
-            if bn and bp:
-                print(f"[THERMOSTAT] brokerNonce received: {bn}")
-                # Verify brokerProof = sign(clientNonce || brokerNonce, broker.priv)
-                expected = (client_nonce + bn).encode("utf-8")
-                try:
-                    broker_pub_key.verify(
-                        base64.b64decode(bp),
-                        expected,
-                        padding.PKCS1v15(),
-                        hashes.SHA256(),
-                    )
-                    print(f"[THERMOSTAT] brokerProof VALID — broker identity confirmed")
-                except InvalidSignature:
-                    print(f"[THERMOSTAT] brokerProof INVALID — possible spoofed broker, disconnecting")
-                    c.disconnect()
-                    sys.exit(1)
-            else:
-                print(f"[THERMOSTAT] CONNACK missing brokerNonce/brokerProof — disconnecting")
+            bc = user_props.get("brokerCredential")
+            
+            if not (bn and bp and bc):
+                print(f"[THERMOSTAT] CONNACK missing brokerNonce/brokerProof/brokerCredential — disconnecting")
+                c.disconnect()
+                sys.exit(1)
+            
+            print(f"[THERMOSTAT] brokerNonce received: {bn}")
+            print(f"[THERMOSTAT] brokerCredential received ({len(bc)} chars)")
+            
+            # Step 1: Validate Broker-Credential-JWT
+            try:
+                claims = jwt.decode(bc, arrowhead_pub_key, algorithms=["RS256"])
+                print(f"[THERMOSTAT] ✅ Broker credential validated: {claims['sub']}")
+                
+                broker_pub_pem = claims['brokerPub']
+                broker_pub_key = serialization.load_pem_public_key(broker_pub_pem.encode('utf-8'))
+                print(f"[THERMOSTAT] ✅ Broker public key extracted")
+                
+            except jwt.InvalidSignatureError:
+                print(f"[THERMOSTAT] ❌ Broker credential INVALID!")
+                c.disconnect()
+                sys.exit(1)
+            except jwt.ExpiredSignatureError:
+                print(f"[THERMOSTAT] ❌ Broker credential EXPIRED!")
+                c.disconnect()
+                sys.exit(1)
+            except Exception as e:
+                print(f"[THERMOSTAT] ❌ Validation failed: {e}")
+                c.disconnect()
+                sys.exit(1)
+            
+            # Step 2: Verify brokerProof
+            expected = (client_nonce + bn).encode("utf-8")
+            try:
+                broker_pub_key.verify(
+                    base64.b64decode(bp),
+                    expected,
+                    padding.PKCS1v15(),
+                    hashes.SHA256(),
+                )
+                print(f"[THERMOSTAT] ✅ brokerProof VALID")
+                print(f"[THERMOSTAT] 🔒 MUTUAL AUTHENTICATION COMPLETE")
+            except InvalidSignature:
+                print(f"[THERMOSTAT] ❌ brokerProof INVALID!")
                 c.disconnect()
                 sys.exit(1)
         if rc == 0:

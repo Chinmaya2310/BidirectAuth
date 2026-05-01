@@ -19,6 +19,8 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -32,6 +34,7 @@ public class SmartHomeAuthenticator implements EnhancedAuthenticator {
     // Each nonce is remembered for NONCE_TTL_MS; a background sweeper removes expired entries.
     private static final long NONCE_TTL_MS = 5 * 60 * 1000L; // 5 minutes
     private static final ConcurrentHashMap<String, Long> seenNonces = new ConcurrentHashMap<>();
+    private static String brokerCredentialJWT = null;
     private static final ScheduledExecutorService nonceSweeper = Executors.newSingleThreadScheduledExecutor(r -> {
         Thread t = new Thread(r, "BidirectAuth-NonceSweeper");
         t.setDaemon(true);
@@ -48,6 +51,13 @@ public class SmartHomeAuthenticator implements EnhancedAuthenticator {
                         before - after, after);
             }
         }, 60, 60, TimeUnit.SECONDS);
+        try {
+            String path = System.getProperty("user.home") + "/Desktop/smarthome-demo-bidirect/certificates/hivemq-broker.token";
+            brokerCredentialJWT = new String(Files.readAllBytes(Paths.get(path))).trim();
+            log.info("[STARTUP] Loaded Broker-Credential-JWT ({} chars)", brokerCredentialJWT.length());
+        } catch (Exception e) {
+            log.error("[STARTUP] Failed to load: {}", e.getMessage());
+        }
     }
 
     private final TokenValidator tokenValidator;
@@ -147,6 +157,12 @@ public class SmartHomeAuthenticator implements EnhancedAuthenticator {
             ModifiableUserProperties outboundProps = output.getOutboundUserProperties();
             outboundProps.addUserProperty("brokerNonce", brokerNonce);
             outboundProps.addUserProperty("brokerProof", brokerProof);
+            if (brokerCredentialJWT != null) {
+                outboundProps.addUserProperty("brokerCredential", brokerCredentialJWT);
+                log.info("[CONNECT] Sent brokerCredential in CONNACK");
+            } else {
+                log.warn("[CONNECT] brokerCredentialJWT is null!");
+            }
 
             log.info("[CONNECT] ACCEPTED client={} (CONNACK carries BidirectAuth proof)", clientId);
             output.authenticateSuccessfully();
