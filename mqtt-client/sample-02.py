@@ -6,6 +6,7 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.exceptions import InvalidSignature
 import base64
 import jwt
+import threading
 import paho.mqtt.client as mqtt
 
 BROKER       = "127.0.0.1"
@@ -89,12 +90,25 @@ def main():
         ("clientNonce",     client_nonce)   # freshness — replay protection
     ]
 
+    # === BidirectAuth gate ===
+    # on_connect runs on the paho network thread; sys.exit() there raises SystemExit
+    # in that thread only and cannot stop main(). Record the verdict here and let the
+    # main thread enforce it before any data is sent.
+    auth_done  = threading.Event()
+    auth_state = {"ok": False, "reason": "no CONNACK received"}
+
+    def auth_fail(c, reason):
+        auth_state["ok"] = False
+        auth_state["reason"] = reason
+        auth_done.set()
+        c.disconnect()
+
     def on_connect(c, userdata, flags, rc, props=None):
         # === Mutual Auth: validate broker identity from CONNACK ===
         if props is None or not hasattr(props, "UserProperty"):
             print(f"[SAMPLE-02] ❌ CONNACK has no properties — fake broker? Disconnecting.")
-            c.disconnect()
-            sys.exit(1)
+            auth_fail(c, "CONNACK has no properties — fake broker? Disconnecting.")
+            return
 
         user_props = dict(props.UserProperty or [])
         bn = user_props.get("brokerNonce")
@@ -103,8 +117,8 @@ def main():
 
         if not (bn and bp and bc):
             print(f"[SAMPLE-02] ❌ CONNACK missing brokerNonce/brokerProof/brokerCredential — disconnecting")
-            c.disconnect()
-            sys.exit(1)
+            auth_fail(c, "CONNACK missing brokerNonce/brokerProof/brokerCredential — disconnecting")
+            return
 
         print(f"[SAMPLE-02] brokerNonce received: {bn}")
         print(f"[SAMPLE-02] brokerCredential received ({len(bc)} chars)")
@@ -122,16 +136,16 @@ def main():
 
         except jwt.InvalidSignatureError:
             print(f"[SAMPLE-02] ❌ Broker credential signature INVALID!")
-            c.disconnect()
-            sys.exit(1)
+            auth_fail(c, "Broker credential signature INVALID")
+            return
         except jwt.ExpiredSignatureError:
             print(f"[SAMPLE-02] ❌ Broker credential EXPIRED! Run mk_broker_credential.py")
-            c.disconnect()
-            sys.exit(1)
+            auth_fail(c, "Broker credential EXPIRED! Run mk_broker_credential.py")
+            return
         except Exception as e:
             print(f"[SAMPLE-02] ❌ Failed to validate broker credential: {e}")
-            c.disconnect()
-            sys.exit(1)
+            auth_fail(c, "Failed to validate broker credential: {e}")
+            return
 
         # Step 2: Verify brokerProof = RSA signature over (clientNonce + brokerNonce)
         # This proves the broker holds the private key matching the public key above
@@ -145,10 +159,13 @@ def main():
             )
             print(f"[SAMPLE-02] ✅ brokerProof VALID — broker identity confirmed")
             print(f"[SAMPLE-02] 🔒 MUTUAL AUTHENTICATION COMPLETE")
+            auth_state["ok"] = True
+            auth_state["reason"] = "verified"
+            auth_done.set()
         except InvalidSignature:
             print(f"[SAMPLE-02] ❌ brokerProof INVALID — possible fake broker!")
-            c.disconnect()
-            sys.exit(1)
+            auth_fail(c, "brokerProof INVALID — possible fake broker")
+            return
 
         if rc == 0:
             print(f"[SAMPLE-02] Connected to HiveMQ successfully")
@@ -158,7 +175,11 @@ def main():
     client.on_connect = on_connect
     client.connect(broker, PORT, 60, properties=connect_props)
     client.loop_start()
-    time.sleep(1)
+    if not auth_done.wait(timeout=10) or not auth_state["ok"]:
+        print(f"[SAMPLE-02] ❌ Broker verification FAILED ({auth_state['reason']}) — aborting, no data sent")
+        client.loop_stop()
+        client.disconnect()
+        sys.exit(1)
 
     print("\n=== Phase 3: Publishing data ===")
     while True:

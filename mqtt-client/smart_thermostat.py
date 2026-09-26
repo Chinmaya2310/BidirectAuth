@@ -6,6 +6,7 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.exceptions import InvalidSignature
 import base64
 import jwt
+import threading
 import paho.mqtt.client as mqtt
 
 BROKER       = "127.0.0.1"
@@ -88,60 +89,80 @@ def main():
         ("clientNonce", client_nonce)
     ]
 
+    # === BidirectAuth gate ===
+    # on_connect runs on the paho network thread; sys.exit() there raises SystemExit
+    # in that thread only and cannot stop main(). Record the verdict here and let the
+    # main thread enforce it before any data is sent.
+    auth_done  = threading.Event()
+    auth_state = {"ok": False, "reason": "no CONNACK received"}
+
+    def auth_fail(c, reason):
+        auth_state["ok"] = False
+        auth_state["reason"] = reason
+        auth_done.set()
+        c.disconnect()
+
     def on_connect(c, userdata, flags, rc, props=None):
         # === BidirectAuth: read brokerNonce + brokerProof from CONNACK ===
-        if props is not None and hasattr(props, "UserProperty"):
-            user_props = dict(props.UserProperty or [])
-            bn = user_props.get("brokerNonce")
-            bp = user_props.get("brokerProof")
-            bc = user_props.get("brokerCredential")
+        if props is None or not getattr(props, "UserProperty", None):
+            print(f"[THERMOSTAT] ❌ CONNACK carried no BidirectAuth properties — rejecting broker")
+            auth_fail(c, "CONNACK carried no BidirectAuth properties")
+            return
+
+        user_props = dict(props.UserProperty or [])
+        bn = user_props.get("brokerNonce")
+        bp = user_props.get("brokerProof")
+        bc = user_props.get("brokerCredential")
+        
+        if not (bn and bp and bc):
+            print(f"[THERMOSTAT] CONNACK missing brokerNonce/brokerProof/brokerCredential — disconnecting")
+            auth_fail(c, "CONNACK missing brokerNonce/brokerProof/brokerCredential — disconnecting")
+            return
+        
+        print(f"[THERMOSTAT] brokerNonce received: {bn}")
+        print(f"[THERMOSTAT] brokerCredential received ({len(bc)} chars)")
+        
+        # Step 1: Validate Broker-Credential-JWT
+        try:
+            claims = jwt.decode(bc, arrowhead_pub_key, algorithms=["RS256"])
+            print(f"[THERMOSTAT] ✅ Broker credential validated: {claims['sub']}")
             
-            if not (bn and bp and bc):
-                print(f"[THERMOSTAT] CONNACK missing brokerNonce/brokerProof/brokerCredential — disconnecting")
-                c.disconnect()
-                sys.exit(1)
+            broker_pub_pem = claims['brokerPub']
+            broker_pub_key = serialization.load_pem_public_key(broker_pub_pem.encode('utf-8'))
+            print(f"[THERMOSTAT] ✅ Broker public key extracted")
             
-            print(f"[THERMOSTAT] brokerNonce received: {bn}")
-            print(f"[THERMOSTAT] brokerCredential received ({len(bc)} chars)")
-            
-            # Step 1: Validate Broker-Credential-JWT
-            try:
-                claims = jwt.decode(bc, arrowhead_pub_key, algorithms=["RS256"])
-                print(f"[THERMOSTAT] ✅ Broker credential validated: {claims['sub']}")
-                
-                broker_pub_pem = claims['brokerPub']
-                broker_pub_key = serialization.load_pem_public_key(broker_pub_pem.encode('utf-8'))
-                print(f"[THERMOSTAT] ✅ Broker public key extracted")
-                
-            except jwt.InvalidSignatureError:
-                print(f"[THERMOSTAT] ❌ Broker credential INVALID!")
-                c.disconnect()
-                sys.exit(1)
-            except jwt.ExpiredSignatureError:
-                print(f"[THERMOSTAT] ❌ Broker credential EXPIRED!")
-                c.disconnect()
-                sys.exit(1)
-            except Exception as e:
-                print(f"[THERMOSTAT] ❌ Validation failed: {e}")
-                c.disconnect()
-                sys.exit(1)
-            
-            # Step 2: Verify brokerProof
-            expected = (client_nonce + bn).encode("utf-8")
-            try:
-                broker_pub_key.verify(
-                    base64.b64decode(bp),
-                    expected,
-                    padding.PKCS1v15(),
-                    hashes.SHA256(),
-                )
-                print(f"[THERMOSTAT] ✅ brokerProof VALID")
-                print(f"[THERMOSTAT] 🔒 MUTUAL AUTHENTICATION COMPLETE")
-            except InvalidSignature:
-                print(f"[THERMOSTAT] ❌ brokerProof INVALID!")
-                c.disconnect()
-                sys.exit(1)
-        if rc == 0:
+        except jwt.InvalidSignatureError:
+            print(f"[THERMOSTAT] ❌ Broker credential INVALID!")
+            auth_fail(c, "Broker credential INVALID")
+            return
+        except jwt.ExpiredSignatureError:
+            print(f"[THERMOSTAT] ❌ Broker credential EXPIRED!")
+            auth_fail(c, "Broker credential EXPIRED")
+            return
+        except Exception as e:
+            print(f"[THERMOSTAT] ❌ Validation failed: {e}")
+            auth_fail(c, "Validation failed: {e}")
+            return
+        
+        # Step 2: Verify brokerProof
+        expected = (client_nonce + bn).encode("utf-8")
+        try:
+            broker_pub_key.verify(
+                base64.b64decode(bp),
+                expected,
+                padding.PKCS1v15(),
+                hashes.SHA256(),
+            )
+            print(f"[THERMOSTAT] ✅ brokerProof VALID")
+            print(f"[THERMOSTAT] 🔒 MUTUAL AUTHENTICATION COMPLETE")
+            auth_state["ok"] = True
+            auth_state["reason"] = "verified"
+            auth_done.set()
+        except InvalidSignature:
+            print(f"[THERMOSTAT] ❌ brokerProof INVALID!")
+            auth_fail(c, "brokerProof INVALID")
+            return
+        if rc == 0 and auth_state["ok"]:
             print(f"[THERMOSTAT] Connected to HiveMQ successfully")
             sub_props = mqtt.Properties(mqtt.PacketTypes.SUBSCRIBE)
             sub_props.UserProperty = [
