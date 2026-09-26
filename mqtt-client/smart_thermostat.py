@@ -1,4 +1,4 @@
-import json, sys, requests, warnings, secrets, ssl
+import json, sys, requests, warnings, secrets
 warnings.filterwarnings("ignore")
 sys.path.insert(0, ".")
 from cryptography.hazmat.primitives import hashes, serialization
@@ -9,7 +9,7 @@ import jwt
 import paho.mqtt.client as mqtt
 
 BROKER       = "127.0.0.1"
-PORT         = 8883
+PORT         = 1883
 SYSTEM_NAME  = "smart-thermostat"
 SERVICE_NAME = "temperature-subscribe"
 CERT_FILE    = "certificates/smart-thermostat.crt"
@@ -78,13 +78,8 @@ def main():
 
     client = mqtt.Client(client_id=SYSTEM_NAME, protocol=mqtt.MQTTv5)
 
-    # Enable TLS — verify broker cert against our CA, no client cert needed
-    # Cert chain has malformed Key Usage on root CA — disable verification.
-    # Broker identity will be validated cryptographically via brokerProof (sub-step 2d).
-    tls_ctx = ssl.create_default_context()
-    tls_ctx.check_hostname = False
-    tls_ctx.verify_mode = ssl.CERT_NONE
-    client.tls_set_context(tls_ctx)
+    # Plain TCP — no TLS setup needed
+    # Broker identity is verified cryptographically via brokerProof below
 
     connect_props = mqtt.Properties(mqtt.PacketTypes.CONNECT)
     connect_props.UserProperty = [
@@ -174,7 +169,6 @@ def main():
 
     client.on_connect = on_connect
     client.on_message = on_message
-    # Override Arrowhead's port: it returns 1883, we want 8883 (TLS)
     client.connect(broker, PORT, 60, properties=connect_props)
     print(f"[THERMOSTAT] Waiting for temperature data...")
     client.loop_forever()

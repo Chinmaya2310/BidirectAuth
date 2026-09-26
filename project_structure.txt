@@ -1,0 +1,149 @@
+.
+├── attack
+│   ├── fake_broker.crt
+│   ├── fake_broker.key
+│   └── fake_broker.py
+├── authorization.jar
+├── BidirectAuth_JWE_Diagram.html
+├── certificates
+│   ├── authorization.p12
+│   ├── authorization.pub
+│   ├── hivemq-broker.key
+│   ├── hivemq-broker.p12
+│   ├── hivemq-broker.pub
+│   ├── hivemq-broker.token
+│   ├── orchestrator.p12
+│   ├── orchestrator.pub
+│   ├── root.crt
+│   ├── root.p12
+│   ├── sample-02.crt
+│   ├── sample-02.key
+│   ├── sample-02.p12
+│   ├── sample-02.pub
+│   ├── sample-03.crt
+│   ├── sample-03.key
+│   ├── sample-03.pub
+│   ├── scheme-1-signed.crt
+│   ├── scheme-1.crt
+│   ├── scheme-1.csr
+│   ├── scheme-1.key
+│   ├── scheme-1.p12
+│   ├── scheme-1.pub
+│   ├── serviceregistry.p12
+│   ├── serviceregistry.pub
+│   ├── smart-thermostat.crt
+│   ├── smart-thermostat.key
+│   ├── smart-thermostat.p12
+│   ├── smart-thermostat.pub
+│   ├── smarthome-cloud.crt
+│   ├── smarthome-cloud.p12
+│   ├── sysop.ca
+│   ├── sysop.crt
+│   ├── sysop.key
+│   ├── sysop.p12
+│   ├── sysop.pub
+│   ├── system-1-signed.crt
+│   ├── system-1.crt
+│   ├── system-1.csr
+│   ├── system-1.key
+│   ├── system-1.p12
+│   ├── system-1.pub
+│   ├── temperature-sensor.crt
+│   ├── temperature-sensor.key
+│   ├── temperature-sensor.p12
+│   ├── temperature-sensor.pub
+│   └── truststore.p12
+├── config
+│   ├── authorization
+│   │   └── application.properties
+│   ├── orchestrator
+│   │   └── application.properties
+│   └── serviceregistry
+│       └── application.properties
+├── hivemq-ce-2024.3
+│   ├── bin
+│   │   ├── diagnostics.bat
+│   │   ├── diagnostics.sh
+│   │   ├── hivemq.jar
+│   │   ├── init-script
+│   │   │   ├── hivemq
+│   │   │   ├── hivemq-debian
+│   │   │   └── hivemq.service
+│   │   ├── run.bat
+│   │   ├── run.sh
+│   │   └── windows-service.txt
+│   ├── conf
+│   │   ├── config.xml
+│   │   ├── config.xsd
+│   │   ├── examples
+│   │   │   ├── configuration
+│   │   │   │   ├── config-sample-mqtt.xml
+│   │   │   │   ├── config-sample-tcp-and-websockets.xml
+│   │   │   │   ├── config-sample-websockets.xml
+│   │   │   │   ├── other
+│   │   │   │   │   ├── config-discard-oldest-messages.xml
+│   │   │   │   │   └── config-restrictions.xml
+│   │   │   │   └── tls
+│   │   │   │       ├── config-sample-mqtt-tls-client-auth.xml
+│   │   │   │       ├── config-sample-mqtt-tls.xml
+│   │   │   │       └── config-sample-websockets-tls.xml
+│   │   │   └── logging
+│   │   │       ├── debug
+│   │   │       │   └── logback.xml
+│   │   │       └── trace
+│   │   │           └── logback.xml
+│   │   ├── logback.xml
+│   │   └── README.txt
+│   ├── extensions
+│   │   ├── hivemq-allow-all-extension.disabled
+│   │   │   ├── hivemq-allow-all-extension-1.0.0.jar
+│   │   │   ├── hivemq-extension.xml
+│   │   │   ├── LICENSE
+│   │   │   ├── README.html
+│   │   │   └── README.txt
+│   │   └── smarthome-auth-extension
+│   │       ├── hivemq-extension.xml
+│   │       ├── lib
+│   │       │   ├── bcprov-jdk18on-1.78.1.jar
+│   │       │   ├── jackson-annotations-2.17.1.jar
+│   │       │   ├── jackson-core-2.17.1.jar
+│   │       │   ├── jackson-databind-2.17.1.jar
+│   │       │   └── java-jwt-4.4.0.jar
+│   │       └── smarthome-auth-extension-1.0.0.jar
+│   ├── README.txt
+│   └── third-party-licenses
+│       ├── LEGAL
+│       ├── licenses
+│       ├── licenses.html
+│       └── NOTICE
+├── hivemq-extension
+│   ├── assembly
+│   │   └── extension-assembly.xml
+│   ├── pom.xml
+│   └── src
+│       └── main
+│           ├── java
+│           │   └── com
+│           │       └── smarthome
+│           │           ├── KeyLoader.java
+│           │           ├── SmartHomeAuthenticator.java
+│           │           ├── SmartHomeAuthorizer.java
+│           │           ├── SmartHomeExtensionMain.java
+│           │           ├── SmartHomePublishInterceptor.java
+│           │           └── TokenValidator.java
+│           └── resources
+│               └── hivemq-extension.xml
+├── mk_broker_credential.py
+├── mk_certs.sh
+├── mqtt-client
+│   ├── sample-02.py
+│   ├── scheme_1.py
+│   ├── smart_thermostat.py
+│   ├── system-1.py
+│   └── temperature_sensor.py
+├── orchestrator.jar
+├── project_structure.txt
+├── README.md
+└── serviceregistry.jar
+
+32 directories, 115 files

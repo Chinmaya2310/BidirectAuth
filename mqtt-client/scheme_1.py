@@ -1,4 +1,4 @@
-import time, random, json, sys, requests, warnings, secrets
+import time, random, json, sys, requests, warnings, secrets, ssl
 warnings.filterwarnings("ignore")
 sys.path.insert(0, ".")
 from cryptography.hazmat.primitives import hashes, serialization
@@ -9,15 +9,15 @@ import jwt
 import paho.mqtt.client as mqtt
 
 BROKER       = "127.0.0.1"
-PORT         = 1883
-SYSTEM_NAME  = "temperature-sensor"
-SERVICE_NAME = "temperature-reading"
-CERT_FILE    = "certificates/temperature-sensor.crt"
-KEY_FILE     = "certificates/temperature-sensor.key"
+PORT         = 8883
+SYSTEM_NAME  = "scheme-1"
+SERVICE_NAME = "service-1"
+CERT_FILE    = "certificates/scheme-1.crt"
+KEY_FILE     = "certificates/scheme-1.key"
 ORCHESTRATOR = "https://127.0.0.1:8441"
 
 def get_pubkey_base64():
-    with open("certificates/temperature-sensor.pub") as f:
+    with open("certificates/scheme-1.pub") as f:
         content = f.read()
     content = content.replace("-----BEGIN PUBLIC KEY-----", "")
     content = content.replace("-----END PUBLIC KEY-----", "")
@@ -29,8 +29,8 @@ def request_orchestration():
         "requesterSystem": {
             "systemName": SYSTEM_NAME,
             "address": "127.0.0.1",
-            "port": 9100,
-            "authenticationInfo": pubkey
+            "port": 9400,
+            "authenticationInfo": ""
         },
         "requestedService": {
             "serviceDefinitionRequirement": SERVICE_NAME,
@@ -39,7 +39,7 @@ def request_orchestration():
         },
         "orchestrationFlags": {"overrideStore": True}
     }
-    print(f"[SENSOR] Calling Orchestrator for: {SERVICE_NAME}")
+    print(f"[SCHEME-1] Calling Orchestrator for: {SERVICE_NAME}")
     resp = requests.post(
         f"{ORCHESTRATOR}/orchestrator/orchestration",
         json=payload,
@@ -59,30 +59,35 @@ def request_orchestration():
     # Get encrypted token - send as-is to HiveMQ
     # HiveMQ will decrypt it using its private key
     encrypted_token = auth_tokens.get("HTTP-SECURE-JSON")
-    print(f"[SENSOR] Broker: {broker_address}:{broker_port}")
+    print(f"[SCHEME-1] Broker: {broker_address}:{broker_port}")
     if not encrypted_token:
         raise Exception("No token received from Arrowhead")
-    print(f"[SENSOR] Token received from Arrowhead (encrypted for HiveMQ)")
-    print(f"[SENSOR] Token first 50 chars: {encrypted_token[:50]}...")
+    print(f"[SCHEME-1] Token received from Arrowhead (encrypted for HiveMQ)")
+    print(f"[SCHEME-1] Token first 50 chars: {encrypted_token[:50]}...")
     return broker_address, broker_port, encrypted_token
 
 def main():
     # Load Arrowhead's public key (trust anchor for broker credential validation)
     with open('certificates/authorization.pub', 'rb') as f:
         arrowhead_pub_key = serialization.load_pem_public_key(f.read())
-    print(f"[SENSOR] Loaded Arrowhead public key for broker credential validation")
+    print(f"[SCHEME-1] Loaded Arrowhead public key for broker credential validation")
 
     print("=== Phase 1: Arrowhead Orchestration ===")
     broker, port, token = request_orchestration()
 
     print("\n=== Phase 2: Connect to HiveMQ with Arrowhead token ===")
     client_nonce = secrets.token_hex(16)  # 16 bytes = 32 hex chars
-    print(f"[SENSOR] clientNonce: {client_nonce}")
+    print(f"[SCHEME-1] clientNonce: {client_nonce}")
 
     client = mqtt.Client(client_id=SYSTEM_NAME, protocol=mqtt.MQTTv5)
 
-    # Plain TCP — no TLS setup needed
-    # Broker identity is verified cryptographically via brokerProof below
+    # Enable TLS — verify broker cert against our CA, no client cert needed
+    # Cert chain has malformed Key Usage on root CA — disable verification.
+    # Broker identity will be validated cryptographically via brokerProof (sub-step 2d).
+    tls_ctx = ssl.create_default_context()
+    tls_ctx.check_hostname = False
+    tls_ctx.verify_mode = ssl.CERT_NONE  # broker cert CN doesn't match 127.0.0.1
+    client.tls_set_context(tls_ctx)
 
     connect_props = mqtt.Properties(mqtt.PacketTypes.CONNECT)
     connect_props.UserProperty = [
@@ -100,33 +105,33 @@ def main():
             bc = user_props.get("brokerCredential")
             
             if not (bn and bp and bc):
-                print(f"[SENSOR] CONNACK missing brokerNonce/brokerProof/brokerCredential — disconnecting")
+                print(f"[SCHEME-1] CONNACK missing brokerNonce/brokerProof/brokerCredential — disconnecting")
                 c.disconnect()
                 sys.exit(1)
             
-            print(f"[SENSOR] brokerNonce received: {bn}")
-            print(f"[SENSOR] brokerCredential received ({len(bc)} chars)")
+            print(f"[SCHEME-1] brokerNonce received: {bn}")
+            print(f"[SCHEME-1] brokerCredential received ({len(bc)} chars)")
             
             # Step 1: Validate Broker-Credential-JWT signature using Arrowhead's public key
             try:
                 claims = jwt.decode(bc, arrowhead_pub_key, algorithms=["RS256"])
-                print(f"[SENSOR] ✅ Broker credential validated: {claims['sub']}")
+                print(f"[SCHEME-1] ✅ Broker credential validated: {claims['sub']}")
                 
                 # Extract broker's public key from validated credential
                 broker_pub_pem = claims['brokerPub']
                 broker_pub_key = serialization.load_pem_public_key(broker_pub_pem.encode('utf-8'))
-                print(f"[SENSOR] ✅ Broker public key extracted from validated credential")
+                print(f"[SCHEME-1] ✅ Broker public key extracted from validated credential")
                 
             except jwt.InvalidSignatureError:
-                print(f"[SENSOR] ❌ Broker credential signature INVALID!")
+                print(f"[SCHEME-1] ❌ Broker credential signature INVALID!")
                 c.disconnect()
                 sys.exit(1)
             except jwt.ExpiredSignatureError:
-                print(f"[SENSOR] ❌ Broker credential EXPIRED!")
+                print(f"[SCHEME-1] ❌ Broker credential EXPIRED!")
                 c.disconnect()
                 sys.exit(1)
             except Exception as e:
-                print(f"[SENSOR] ❌ Failed to validate broker credential: {e}")
+                print(f"[SCHEME-1] ❌ Failed to validate broker credential: {e}")
                 c.disconnect()
                 sys.exit(1)
             
@@ -139,18 +144,19 @@ def main():
                     padding.PKCS1v15(),
                     hashes.SHA256(),
                 )
-                print(f"[SENSOR] ✅ brokerProof VALID — broker identity confirmed")
-                print(f"[SENSOR] 🔒 MUTUAL AUTHENTICATION COMPLETE")
+                print(f"[SCHEME-1] ✅ brokerProof VALID — broker identity confirmed")
+                print(f"[SCHEME-1] 🔒 MUTUAL AUTHENTICATION COMPLETE")
             except InvalidSignature:
-                print(f"[SENSOR] ❌ brokerProof INVALID!")
+                print(f"[SCHEME-1] ❌ brokerProof INVALID!")
                 c.disconnect()
                 sys.exit(1)
         if rc == 0:
-            print(f"[SENSOR] Connected to HiveMQ successfully")
+            print(f"[SCHEME-1] Connected to HiveMQ successfully")
         else:
-            print(f"[SENSOR] Connection failed rc={rc}")
+            print(f"[SCHEME-1] Connection failed rc={rc}")
 
     client.on_connect = on_connect
+    # Override Arrowhead's port: it returns 1883, we want 8883 (TLS)
     client.connect(broker, PORT, 60, properties=connect_props)
     client.loop_start()
     time.sleep(1)
@@ -164,12 +170,12 @@ def main():
             ("arrowheadToken", token)
         ]
         payload = json.dumps({
-            "temperature": temperature,
+            "data": temperature,
             "unit": "celsius",
             "timestamp": time.time()
         })
-        client.publish("room/temperature", payload, qos=1, properties=pub_props)
-        print(f"[SENSOR] Published: {temperature}C")
+        client.publish("room/service-1", payload, qos=1, properties=pub_props)
+        print(f"[SCHEME-1] Published: {temperature}C")
         time.sleep(5)
 
 if __name__ == "__main__":

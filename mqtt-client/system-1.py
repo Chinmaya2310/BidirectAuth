@@ -10,14 +10,14 @@ import paho.mqtt.client as mqtt
 
 BROKER       = "127.0.0.1"
 PORT         = 1883
-SYSTEM_NAME  = "temperature-sensor"
-SERVICE_NAME = "temperature-reading"
-CERT_FILE    = "certificates/temperature-sensor.crt"
-KEY_FILE     = "certificates/temperature-sensor.key"
+SYSTEM_NAME  = "system-1"
+SERVICE_NAME = "service-1"
+CERT_FILE    = "certificates/system-1.crt"
+KEY_FILE     = "certificates/system-1.key"
 ORCHESTRATOR = "https://127.0.0.1:8441"
 
 def get_pubkey_base64():
-    with open("certificates/temperature-sensor.pub") as f:
+    with open("certificates/system-1.pub") as f:
         content = f.read()
     content = content.replace("-----BEGIN PUBLIC KEY-----", "")
     content = content.replace("-----END PUBLIC KEY-----", "")
@@ -29,8 +29,8 @@ def request_orchestration():
         "requesterSystem": {
             "systemName": SYSTEM_NAME,
             "address": "127.0.0.1",
-            "port": 9100,
-            "authenticationInfo": pubkey
+            "port": 9500,
+            "authenticationInfo": ""
         },
         "requestedService": {
             "serviceDefinitionRequirement": SERVICE_NAME,
@@ -79,7 +79,7 @@ def main():
     client_nonce = secrets.token_hex(16)  # 16 bytes = 32 hex chars
     print(f"[SENSOR] clientNonce: {client_nonce}")
 
-    client = mqtt.Client(client_id=SYSTEM_NAME, protocol=mqtt.MQTTv5)
+    client = mqtt.Client(client_id=SYSTEM_NAME, protocol=mqtt.MQTTv5, reconnect_on_failure=False)
 
     # Plain TCP — no TLS setup needed
     # Broker identity is verified cryptographically via brokerProof below
@@ -93,6 +93,11 @@ def main():
 
     def on_connect(c, userdata, flags, rc, props=None):
         # === BidirectAuth: read brokerNonce + brokerProof from CONNACK ===
+        if props is None or not hasattr(props, "UserProperty"):
+            print(f"[SYSTEM-1] ❌ CONNACK has no properties — fake broker detected! Disconnecting.")
+            c.disconnect()
+            sys.exit(1)
+        
         if props is not None and hasattr(props, "UserProperty"):
             user_props = dict(props.UserProperty or [])
             bn = user_props.get("brokerNonce")
@@ -100,7 +105,7 @@ def main():
             bc = user_props.get("brokerCredential")
             
             if not (bn and bp and bc):
-                print(f"[SENSOR] CONNACK missing brokerNonce/brokerProof/brokerCredential — disconnecting")
+                print(f"[SYSTEM-1] ❌ CONNACK missing brokerNonce/brokerProof/brokerCredential — disconnecting")
                 c.disconnect()
                 sys.exit(1)
             
@@ -168,7 +173,7 @@ def main():
             "unit": "celsius",
             "timestamp": time.time()
         })
-        client.publish("room/temperature", payload, qos=1, properties=pub_props)
+        client.publish("room/service-1", payload, qos=1, properties=pub_props)
         print(f"[SENSOR] Published: {temperature}C")
         time.sleep(5)
 

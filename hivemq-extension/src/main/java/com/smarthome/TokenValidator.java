@@ -208,7 +208,8 @@ public class TokenValidator {
     private record ServicePerm(String topic, String action) {}
     private static final java.util.Map<String, ServicePerm> SERVICE_PERMS = java.util.Map.of(
         "temperature-reading",   new ServicePerm("room/temperature", "PUBLISH"),
-        "temperature-subscribe", new ServicePerm("room/temperature", "SUBSCRIBE")
+        "temperature-subscribe", new ServicePerm("room/temperature", "SUBSCRIBE"),
+        "service-1", new ServicePerm("room/service-1", "PUBLISH")
     );
 
     public record ValidationResult(boolean valid, String reason) {
